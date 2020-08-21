@@ -21,9 +21,7 @@ export default function Routes() {
       <AuthenticatedRoute exact path="/logout">
         <Logout />
       </AuthenticatedRoute>
-      <AuthenticatedRoute path="/admin">
-        <Admin />
-      </AuthenticatedRoute>
+      <AuthenticatedRoute path="/admin" component={Admin} />
       {/* Finally, catch all unmatched routes */}
       <Route>
         <NotFound />
