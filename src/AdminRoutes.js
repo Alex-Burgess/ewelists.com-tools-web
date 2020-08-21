@@ -18,9 +18,10 @@
 // @material-ui/icons
 import Dashboard from "@material-ui/icons/Dashboard";
 import Person from "@material-ui/icons/Person";
+import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
 // core components/views for Admin layout
 import DashboardPage from "views/Dashboard/Dashboard.js";
-import TableList from "views/TableList/TableList.js";
+import ProductUpdates from "views/ProductUpdates/ProductUpdates.js";
 import UserProfile from "views/UserProfile/UserProfile.js";
 
 const dashboardRoutes = [
@@ -32,10 +33,10 @@ const dashboardRoutes = [
     layout: "/admin"
   },
   {
-    path: "/table",
-    name: "Table List",
-    icon: "content_paste",
-    component: TableList,
+    path: "/product-updates",
+    name: "Product Updates",
+    icon: FormatListBulletedIcon,
+    component: ProductUpdates,
     layout: "/admin"
   },
   {

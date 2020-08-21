@@ -10,9 +10,24 @@ function App() {
 
   const [isAuthenticated, userHasAuthenticated] = useState(false);
   const [isAuthenticating, setIsAuthenticating] = useState(true);
+  const [mobile, setMobile] = useState(false);
 
   useEffect(() => {
     onLoad();
+  }, []);
+
+  // Page size
+  useEffect( () => {
+    function updateDimensions() {
+      if (window.innerWidth < 400){
+        setMobile(true);
+      } else {
+        setMobile(false);
+      }
+    };
+
+    window.addEventListener('resize', updateDimensions);
+    updateDimensions();
   }, []);
 
   async function onLoad() {
@@ -40,7 +55,7 @@ function App() {
   return (
     !isAuthenticating &&
     <div >
-      <AppContext.Provider value={{ isAuthenticated, userHasAuthenticated, handleLogout }}>
+      <AppContext.Provider value={{ isAuthenticated, userHasAuthenticated, handleLogout, mobile }}>
         <Routes />
       </AppContext.Provider>
     </div>
