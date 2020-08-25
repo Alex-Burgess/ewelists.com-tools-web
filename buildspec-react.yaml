@@ -38,18 +38,6 @@ phases:
       - echo Content will be synced to ${WEB_BUCKET}
       - |
         if [ $UPDATE_CONTENT = "true" ]; then
-          aws s3 sync build/ s3://${WEB_BUCKET} --delete --exclude 'build/status.html'
-        else
-          echo No updates to Web content, not syncing.
-        fi
-      - |
-        if [ $UPDATE_CONTENT = "true" ]; then
-          aws s3 cp build/status.html s3://${WEB_BUCKET}/status.html --cache-control no-cache
-        else
-          echo No updates to Web content, not updating.
-        fi
-      - |
-        if [ $UPDATE_CONTENT = "true" ]; then
           aws cloudfront create-invalidation --distribution-id $CLOUDFRONT_ID --paths "/*"
         else
           echo No updates to Web content, not invalidating cache.
