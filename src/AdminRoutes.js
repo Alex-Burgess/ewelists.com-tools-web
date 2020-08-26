@@ -17,13 +17,11 @@
 */
 // @material-ui/icons
 import Dashboard from "@material-ui/icons/Dashboard";
-import Person from "@material-ui/icons/Person";
 import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
 // core components/views for Admin layout
 import DashboardPage from "views/Dashboard/Dashboard.js";
 import ProductUpdates from "views/ProductUpdates/ProductUpdates.js";
 import UpdatePage from "views/ProductUpdates/UpdatePage.js";
-import UserProfile from "views/UserProfile/UserProfile.js";
 
 const dashboardRoutes = [
   {
@@ -49,14 +47,6 @@ const dashboardRoutes = [
     component: UpdatePage,
     layout: "/admin",
     header: false
-  },
-  {
-    path: "/user",
-    name: "User Profile",
-    icon: Person,
-    component: UserProfile,
-    layout: "/admin",
-    header: true
   }
 ];
 

@@ -22,6 +22,21 @@ Amplify.configure({
         name: "tools",
         endpoint: config.apiGateway.TOOLS,
         region: config.apiGateway.REGION
+      },
+      {
+        name: "lists",
+        endpoint: config.apiGateway.LISTS,
+        region: config.apiGateway.REGION
+      },
+      {
+        name: "notfound",
+        endpoint: config.apiGateway.NOTFOUND,
+        region: config.apiGateway.REGION
+      },
+      {
+        name: "products",
+        endpoint: config.apiGateway.PRODUCTS,
+        region: config.apiGateway.REGION
       }
     ]
   }

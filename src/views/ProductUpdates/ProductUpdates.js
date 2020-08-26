@@ -16,7 +16,7 @@ import { useAppContext } from "libs/contextLib";
 import { getNotFoundItems } from "libs/apiLib.js";
 import { onError } from "libs/errorLib";
 
-import styles from "assets/jss/material-dashboard-react/views/updatePageStyle.js";
+import styles from "assets/jss/material-dashboard-react/views/productUpdatesStyle.js";
 
 const useStyles = makeStyles(styles);
 
