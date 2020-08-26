@@ -38,7 +38,7 @@ phases:
       - echo Content will be synced to ${WEB_BUCKET}
       - |
         if [ $UPDATE_CONTENT = "true" ]; then
-          aws s3 sync build/ s3://${WEB_BUCKET} --delete'
+          aws s3 sync build/ s3://${WEB_BUCKET} --delete
         else
           echo No updates to Web content, not syncing.
         fi
