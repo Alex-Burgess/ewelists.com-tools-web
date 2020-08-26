@@ -22,6 +22,7 @@ import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
 // core components/views for Admin layout
 import DashboardPage from "views/Dashboard/Dashboard.js";
 import ProductUpdates from "views/ProductUpdates/ProductUpdates.js";
+import UpdatePage from "views/ProductUpdates/UpdatePage.js";
 import UserProfile from "views/UserProfile/UserProfile.js";
 
 const dashboardRoutes = [
@@ -30,21 +31,32 @@ const dashboardRoutes = [
     name: "Dashboard",
     icon: Dashboard,
     component: DashboardPage,
-    layout: "/admin"
+    layout: "/admin",
+    header: true
   },
   {
     path: "/product-updates",
     name: "Product Updates",
     icon: FormatListBulletedIcon,
     component: ProductUpdates,
-    layout: "/admin"
+    layout: "/admin",
+    header: true
+  },
+  {
+    path: "/product-updates/:id",
+    name: "Product Updates",
+    icon: FormatListBulletedIcon,
+    component: UpdatePage,
+    layout: "/admin",
+    header: false
   },
   {
     path: "/user",
     name: "User Profile",
     icon: Person,
     component: UserProfile,
-    layout: "/admin"
+    layout: "/admin",
+    header: true
   }
 ];
 

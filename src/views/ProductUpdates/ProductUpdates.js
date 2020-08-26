@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from "react-router-dom";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
+// @material-ui icons
+import Edit from "@material-ui/icons/Edit";
 // core components
 import GridItem from "components/Grid/GridItem.js";
 import GridContainer from "components/Grid/GridContainer.js";
@@ -13,39 +16,11 @@ import { useAppContext } from "libs/contextLib";
 import { getNotFoundItems } from "libs/apiLib.js";
 import { onError } from "libs/errorLib";
 
-const styles = {
-  cardCategoryWhite: {
-    "&,& a,& a:hover,& a:focus": {
-      color: "rgba(255,255,255,.62)",
-      margin: "0",
-      fontSize: "14px",
-      marginTop: "0",
-      marginBottom: "0"
-    },
-    "& a,& a:hover,& a:focus": {
-      color: "#FFFFFF"
-    }
-  },
-  cardTitleWhite: {
-    color: "#FFFFFF",
-    marginTop: "0px",
-    minHeight: "auto",
-    fontWeight: "300",
-    fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
-    marginBottom: "3px",
-    textDecoration: "none",
-    "& small": {
-      color: "#777",
-      fontSize: "65%",
-      fontWeight: "400",
-      lineHeight: "1"
-    }
-  }
-};
+import styles from "assets/jss/material-dashboard-react/views/updatePageStyle.js";
 
 const useStyles = makeStyles(styles);
 
-export default function TableList() {
+export default function ProductUpdates() {
   const { mobile } = useAppContext();
 
   const [items, setItems] = useState(0);
@@ -70,7 +45,21 @@ export default function TableList() {
         ([key, p]) =>
           mobile
             ? [p['brand'], p['details']]
-            : [p['brand'], p['details'], <a href={p['productUrl']} target="_blank" rel="noopener noreferrer">{p['productUrl']}</a>]
+            : [
+                <Link to={"/admin/product-updates/" + p['productId']} className={classes.tableLink}>
+                  {p['brand']}
+                </Link>,
+                <Link to={"/admin/product-updates/" + p['productId']} className={classes.tableLink}>
+                  {p['details']}
+                </Link>,
+                <Link to={"/admin/product-updates/" + p['productId']} className={classes.tableLink}>
+                  {p['productUrl']}
+                </Link>,
+                <Link to={"/admin/product-updates/" + p['productId']} className={classes.iconLink}>
+                  <Edit />
+                </Link>
+
+            ]
       );
 
     return allproducts
@@ -91,8 +80,8 @@ export default function TableList() {
             <Table
               tableHeaderColor="primary"
               tableHead={ mobile
-                ? ["Brand", "Details"]
-                : ["Brand", "Details", "Url"]
+                ? ["Brand", "Details", ""]
+                : ["Brand", "Details", "Url", ""]
               }
               tableData={
                 renderProducts()

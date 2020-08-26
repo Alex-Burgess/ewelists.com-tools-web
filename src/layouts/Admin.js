@@ -23,6 +23,7 @@ const switchRoutes = (
       if (prop.layout === "/admin") {
         return (
           <Route
+            exact
             path={prop.layout + prop.path}
             component={prop.component}
             key={key}
@@ -51,8 +52,16 @@ export default function Admin({ ...rest }) {
     setMobileOpen(!mobileOpen);
   };
 
-  const getRoute = () => {
-    return window.location.pathname !== "/admin/maps";
+  const getSidebarHeadings = (routes) => {
+    const newRoutes = routes.map(obj => {
+      if (obj.header) {
+        return obj;
+      } else {
+        return null;
+      }
+    });
+
+    return newRoutes.filter(Boolean);
   };
 
   const resizeFunction = () => {
@@ -83,7 +92,7 @@ export default function Admin({ ...rest }) {
   return (
     <div className={classes.wrapper}>
       <Sidebar
-        routes={routes}
+        routes={getSidebarHeadings(routes)}
         logoText={"Ewelists"}
         logo={logo}
         handleDrawerToggle={handleDrawerToggle}
@@ -97,14 +106,9 @@ export default function Admin({ ...rest }) {
           handleDrawerToggle={handleDrawerToggle}
           {...rest}
         />
-        {/* On the /maps route we want the map to be on full screen - this is not possible if the content and conatiner classes are present because they have some paddings which would make the map smaller */}
-        {getRoute() ? (
-          <div className={classes.content}>
-            <div className={classes.container}>{switchRoutes}</div>
-          </div>
-        ) : (
-          <div className={classes.map}>{switchRoutes}</div>
-        )}
+        <div className={classes.content}>
+          <div className={classes.container}>{switchRoutes}</div>
+        </div>
       </div>
     </div>
   );
