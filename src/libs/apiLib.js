@@ -1,6 +1,5 @@
 import { API } from "aws-amplify";
 import { onError } from "libs/errorLib";
-// import config from 'config.js';
 
 export const getNotFoundCount = async () => {
   let response;
@@ -32,7 +31,7 @@ export const getNotFoundItem = async (id) => {
   let response;
 
   try {
-    response = await API.get("notfound", "/" + id);
+    response = await API.get("tools", "/notfound/" + id);
   } catch (e) {
     onError("Could not retrieve notfound item. Error: " + e.response.data.error);
     throw e;
