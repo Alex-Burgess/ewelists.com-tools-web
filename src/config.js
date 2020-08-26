@@ -17,7 +17,7 @@ const test = {
 const staging = {
   apiGateway: {
     REGION: "eu-west-1",
-    TOOLS: "https://fgkx791rd5.execute-api.eu-west-1.amazonaws.com/test/tools",
+    TOOLS: "https://fgkx791rd5.execute-api.eu-west-1.amazonaws.com/staging/tools",
     LISTS: "https://yawecld0ag.execute-api.eu-west-1.amazonaws.com/staging/lists",
     NOTFOUND: "https://jnbwllwjwl.execute-api.eu-west-1.amazonaws.com/staging/notfound",
     PRODUCTS: "https://p0ugkk400f.execute-api.eu-west-1.amazonaws.com/staging/products"
@@ -33,7 +33,7 @@ const staging = {
 const prod = {
   apiGateway: {
     REGION: "eu-west-1",
-    TOOLS: "https://thv9i4h952.execute-api.eu-west-1.amazonaws.com/test/tools",
+    TOOLS: "https://thv9i4h952.execute-api.eu-west-1.amazonaws.com/prod/tools",
     LISTS: "https://0q9l8rzjga.execute-api.eu-west-1.amazonaws.com/prod/lists",
     NOTFOUND: "https://lnsfi2fo7i.execute-api.eu-west-1.amazonaws.com/prod/notfound",
     PRODUCTS: "https://rd7ynfvepb.execute-api.eu-west-1.amazonaws.com/prod/products"
