@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
@@ -71,9 +70,8 @@ export default function UpdateProduct(props) {
       "imageUrl": imageUrl
     }
 
-    let response;
     try {
-      response = await updateProductItem(body, productId);
+      await updateProductItem(body, productId);
       setIsUpdating(false);
       setUpdated(true);
     } catch (e) {

@@ -77,9 +77,8 @@ export default function UpdateProducts(props) {
       "imageUrl": imageUrl
     }
 
-    let response;
     try {
-      response = await updateNotfoundProduct(body, productId);
+      await updateNotfoundProduct(body, productId);
       setIsUpdating(false);
       setUpdated(true);
     } catch (e) {
