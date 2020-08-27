@@ -17,11 +17,15 @@
 */
 // @material-ui/icons
 import Dashboard from "@material-ui/icons/Dashboard";
-import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
+import Loyalty from '@material-ui/icons/Loyalty';
+import AddBox from '@material-ui/icons/AddBox';
+import Edit from '@material-ui/icons/Edit';
 // core components/views for Admin layout
 import DashboardPage from "views/Dashboard/Dashboard.js";
-import ProductUpdates from "views/ProductUpdates/ProductUpdates.js";
-import UpdatePage from "views/ProductUpdates/UpdatePage.js";
+import GiftsToUpdatePage from "views/UpdateUsersGifts/DisplayGiftsPage.js";
+import UpdateGiftPage from "views/UpdateUsersGifts/UpdateGiftPage.js";
+import CreateNewProduct from "views/CreateNewProduct/CreatePage.js";
+import SearchProduct from "views/UpdateProduct/SearchProductPage.js";
 
 const dashboardRoutes = [
   {
@@ -33,18 +37,34 @@ const dashboardRoutes = [
     header: true
   },
   {
-    path: "/product-updates",
-    name: "Product Updates",
-    icon: FormatListBulletedIcon,
-    component: ProductUpdates,
+    path: "/create-product",
+    name: "Create New Product",
+    icon: AddBox,
+    component: CreateNewProduct,
     layout: "/admin",
     header: true
   },
   {
-    path: "/product-updates/:id",
-    name: "Product Updates",
-    icon: FormatListBulletedIcon,
-    component: UpdatePage,
+    path: "/update-product",
+    name: "Update Product",
+    icon: Edit,
+    component: SearchProduct,
+    layout: "/admin",
+    header: true
+  },
+  {
+    path: "/update-users-gifts",
+    name: "Update Users Gifts",
+    icon: Loyalty,
+    component: GiftsToUpdatePage,
+    layout: "/admin",
+    header: true
+  },
+  {
+    path: "/update-users-gifts/:id",
+    name: "Update Users Gifts",
+    icon: Loyalty,
+    component: UpdateGiftPage,
     layout: "/admin",
     header: false
   }

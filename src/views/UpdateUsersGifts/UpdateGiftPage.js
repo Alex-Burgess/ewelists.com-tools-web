@@ -16,7 +16,7 @@ import ErrorText from "components/Typography/Danger.js";
 import { getNotFoundItem, updateNotfoundProduct } from "libs/apiLib.js";
 import { onError } from "libs/errorLib";
 
-import styles from "assets/jss/material-dashboard-react/views/productUpdatesStyle.js";
+import styles from "assets/jss/material-dashboard-react/views/updateUsersGiftsStyle.js";
 
 const useStyles = makeStyles(styles);
 
@@ -80,7 +80,6 @@ export default function UpdateProducts(props) {
     let response;
     try {
       response = await updateNotfoundProduct(body, productId);
-      console.log('Response: ' + JSON.stringify(response));
       setIsUpdating(false);
       setUpdated(true);
     } catch (e) {

@@ -48,7 +48,7 @@ export default function Dashboard() {
               <CardIcon color="danger">
                 <Icon>info_outline</Icon>
               </CardIcon>
-              <p className={classes.cardCategory}>Product Updates</p>
+              <p className={classes.cardCategory}>Gifts To Check</p>
               <h3 className={classes.cardTitle}>{notfoundCount}</h3>
             </CardHeader>
             <CardFooter stats>

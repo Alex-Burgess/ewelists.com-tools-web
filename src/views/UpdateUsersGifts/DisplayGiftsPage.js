@@ -16,11 +16,11 @@ import { useAppContext } from "libs/contextLib";
 import { getNotFoundItems } from "libs/apiLib.js";
 import { onError } from "libs/errorLib";
 
-import styles from "assets/jss/material-dashboard-react/views/productUpdatesStyle.js";
+import styles from "assets/jss/material-dashboard-react/views/updateUsersGiftsStyle.js";
 
 const useStyles = makeStyles(styles);
 
-export default function ProductUpdates() {
+export default function DisplayGiftsPage() {
   const { mobile } = useAppContext();
 
   const [items, setItems] = useState(0);
@@ -46,16 +46,16 @@ export default function ProductUpdates() {
           mobile
             ? [p['brand'], p['details']]
             : [
-                <Link to={"/admin/product-updates/" + p['productId']} className={classes.tableLink}>
+                <Link to={"/admin/update-users-gifts/" + p['productId']} className={classes.tableLink}>
                   {p['brand']}
                 </Link>,
-                <Link to={"/admin/product-updates/" + p['productId']} className={classes.tableLink}>
+                <Link to={"/admin/update-users-gifts/" + p['productId']} className={classes.tableLink}>
                   {p['details']}
                 </Link>,
-                <Link to={"/admin/product-updates/" + p['productId']} className={classes.tableLink}>
+                <Link to={"/admin/update-users-gifts/" + p['productId']} className={classes.tableLink}>
                   {p['productUrl']}
                 </Link>,
-                <Link to={"/admin/product-updates/" + p['productId']} className={classes.iconLink}>
+                <Link to={"/admin/update-users-gifts/" + p['productId']} className={classes.iconLink}>
                   <Edit />
                 </Link>
 

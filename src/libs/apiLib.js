@@ -5,7 +5,7 @@ export const getNotFoundCount = async () => {
   let response;
 
   try {
-    response = await API.get("tools", "/products/count");
+    response = await API.get("tools", "/notfound/count");
   } catch (e) {
     onError("Could not retrieve count. Error: " + e.response.data.error);
     throw e;
@@ -18,7 +18,7 @@ export const getNotFoundItems = async () => {
   let response;
 
   try {
-    response = await API.get("tools", "/products");
+    response = await API.get("tools", "/notfound");
   } catch (e) {
     onError("Could not retrieve count. Error: " + e.response.data.error);
     throw e;
@@ -44,11 +44,54 @@ export const updateNotfoundProduct = async (body, id) => {
   let response;
 
   try {
-    response = await API.post("tools", "/products/" + id, {
+    response = await API.post("tools", "/notfound/" + id, {
       body: body
     });
   } catch (e) {
     onError("Could not update notfound item. Error: " + e.response.data.error);
+    throw e;
+  }
+
+  return response;
+}
+
+export const createProduct = async (body) => {
+  let response;
+
+  try {
+    response = await API.post("tools", "/products", {
+      body: body
+    });
+  } catch (e) {
+    onError("Could not create product item. Error: " + e.response.data.error);
+    throw e;
+  }
+
+  return response;
+}
+
+export const getProductItem = async (id) => {
+  let response;
+
+  try {
+    response = await API.get("tools", "/products/" + id);
+  } catch (e) {
+    onError("Could not retrieve products item. Error: " + e.response.data.error);
+    throw e;
+  }
+
+  return response;
+}
+
+export const updateProductItem = async (body, id) => {
+  let response;
+
+  try {
+    response = await API.put("tools", "/products/" + id, {
+      body: body
+    });
+  } catch (e) {
+    onError("Could not update products item. Error: " + e.response.data.error);
     throw e;
   }
 
