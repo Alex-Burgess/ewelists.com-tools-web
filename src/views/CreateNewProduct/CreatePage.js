@@ -45,6 +45,16 @@ export default function CreateNewProduct(props) {
     );
   }
 
+  const updateImageUrl = (url) => {
+    if (url.includes('amazon.co.uk')) {
+      var image = url.match(/src="(.*)" ></);
+      console.log("amazon image url: " + image[1])
+      setImageUrl(image[1])
+    } else {
+      setImageUrl(url)
+    }
+  }
+
   const updateProduct = async () => {
     setIsUpdating(true);
 
@@ -178,7 +188,7 @@ export default function CreateNewProduct(props) {
                       multiline: true,
                       rows: 2,
                       value: imageUrl,
-                      onChange: event => setImageUrl(event.target.value)
+                      onChange: event => updateImageUrl(event.target.value)
                     }}
                   />
                 </GridItem>
@@ -194,7 +204,7 @@ export default function CreateNewProduct(props) {
                       ? <Button color="success" onClick={nextProduct}>
                           Create Next Product
                         </Button>
-                      : <Button color="default" onClick={nextProduct}>
+                      : <Button onClick={nextProduct}>
                           Clear Form
                         </Button>
                     }
