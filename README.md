@@ -1,23 +1,29 @@
 # ewelists.com-tools-web
 
-Useful links:
+React Web Application relating to the [Tools](https://github.com/Alex-Burgess/ewelists.com-tools) application.
 
-Serverless Stack:
-https://serverless-stack.com
-https://github.com/AnomalyInnovations/serverless-stack-demo-client
+## Useful links
+- [Serverless Stack](https://serverless-stack.com)
+- [React Web Template](https://www.creative-tim.com/product/material-dashboard-react)
 
-UI Kit:
-https://www.creative-tim.com/product/material-dashboard-react
-https://demos.creative-tim.com/material-dashboard-react/#/admin/dashboard
-https://demos.creative-tim.com/material-dashboard-react/#/documentation/tutorial
+## Available Scripts
+
+### `npm start`
+Runs the app in the development mode.<br>
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+
+The page will reload if you make edits.<br>
+You will also see any lint errors in the console.
+
+### `npm run build`
+Builds the app for a local/test environment to the `build` folder.
+
+### `REACT_APP_STAGE=staging npm run build`
+Builds the application for staging environment.
 
 
-UI Kit for bootstrap has nicer form features:
-https://www.creative-tim.com/product/light-bootstrap-dashboard-react
-https://demos.creative-tim.com/light-bootstrap-dashboard-react/#/admin/user
-
-OR just use material ui outlined fields:
-https://material-ui.com/components/text-fields/
-
-
-Test Url: https://test.tools.ewelists.com/admin/dashboard
+## Copy Content
+After building the application you can copy the content to S3:
+```
+aws s3 sync build/ s3://test.tools.ewelists.com --delete
+zzz
