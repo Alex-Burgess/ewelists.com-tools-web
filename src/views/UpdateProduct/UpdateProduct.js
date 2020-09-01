@@ -34,7 +34,6 @@ export default function UpdateProduct(props) {
   const [imageUrl, setImageUrl] = useState('');
   const [isUpdating, setIsUpdating] = useState(false);
   const [updateError, setUpdateError] = useState('');
-  // const [loadError, setLoadError] = useState('');
   const [updated, setUpdated] = useState(false);
 
   useEffect( () => {
@@ -58,7 +57,8 @@ export default function UpdateProduct(props) {
     );
   }
 
-  const updateProduct = async () => {
+  const updateProduct = async (e) => {
+    e.preventDefault();
     setIsUpdating(true);
 
     var body = {
@@ -91,112 +91,114 @@ export default function UpdateProduct(props) {
             </CardHeader>
             <CardBody>
               <GridContainer>
-                <GridItem xs={12} sm={12} md={4}>
-                  <CustomInput
-                    labelText="Brand"
-                    id="brand"
-                    formControlProps={{
-                      fullWidth: true
-                    }}
-                    inputProps={{
-                      disabled: isUpdating || updated,
-                      value: brand,
-                      onChange: event => setBrand(event.target.value)
-                    }}
-                  />
-                </GridItem>
-                <GridItem xs={12} sm={12} md={4}>
-                  <CustomInput
-                    labelText="Retailer"
-                    id="retailer"
-                    formControlProps={{
-                      fullWidth: true
-                    }}
-                    inputProps={{
-                      disabled: isUpdating || updated,
-                      value: retailer,
-                      onChange: event => setRetailer(event.target.value)
-                    }}
-                  />
-                </GridItem>
-                <GridItem xs={12} sm={12} md={4}>
-                  <CustomInput
-                    labelText="Price"
-                    id="price"
-                    formControlProps={{
-                      fullWidth: true
-                    }}
-                    inputProps={{
-                      disabled: isUpdating || updated,
-                      value: price,
-                      onChange: event => setPrice(event.target.value)
-                    }}
-                  />
-                </GridItem>
-                <GridItem xs={12} sm={12} md={12}>
-                  <CustomInput
-                    labelText="Details"
-                    id="details"
-                    formControlProps={{
-                      fullWidth: true
-                    }}
-                    inputProps={{
-                      disabled: isUpdating || updated,
-                      value: details,
-                      onChange: event => setDetails(event.target.value)
-                    }}
-                  />
-                </GridItem>
-                <GridItem xs={12} sm={12} md={12}>
-                  <CustomInput
-                    labelText="Product Link"
-                    id="product-link"
-                    formControlProps={{
-                      fullWidth: true
-                    }}
-                    inputProps={{
-                      disabled: isUpdating || updated,
-                      multiline: true,
-                      rows: 2,
-                      value: productUrl,
-                      onChange: event => setProductUrl(event.target.value)
-                    }}
-                  />
-                </GridItem>
-                <GridItem xs={12} sm={12} md={12}>
-                  <CustomInput
-                    labelText="Image Link"
-                    id="image-link"
-                    formControlProps={{
-                      fullWidth: true
-                    }}
-                    inputProps={{
-                      disabled: isUpdating || updated,
-                      multiline: true,
-                      rows: 2,
-                      value: imageUrl,
-                      onChange: event => setImageUrl(event.target.value)
-                    }}
-                  />
-                </GridItem>
-                <GridItem xs={12} sm={12} md={12}>
-                  <div className={classes.buttonContainer}>
-                    <Button color="primary" disabled={!validateForm() || updated} onClick={updateProduct}>
+                <form onSubmit={updateProduct}>
+                  <GridItem xs={12} sm={12} md={4}>
+                    <CustomInput
+                      labelText="Brand"
+                      id="brand"
+                      formControlProps={{
+                        fullWidth: true
+                      }}
+                      inputProps={{
+                        disabled: isUpdating || updated,
+                        value: brand,
+                        onChange: event => setBrand(event.target.value)
+                      }}
+                    />
+                  </GridItem>
+                  <GridItem xs={12} sm={12} md={4}>
+                    <CustomInput
+                      labelText="Retailer"
+                      id="retailer"
+                      formControlProps={{
+                        fullWidth: true
+                      }}
+                      inputProps={{
+                        disabled: isUpdating || updated,
+                        value: retailer,
+                        onChange: event => setRetailer(event.target.value)
+                      }}
+                    />
+                  </GridItem>
+                  <GridItem xs={12} sm={12} md={4}>
+                    <CustomInput
+                      labelText="Price"
+                      id="price"
+                      formControlProps={{
+                        fullWidth: true
+                      }}
+                      inputProps={{
+                        disabled: isUpdating || updated,
+                        value: price,
+                        onChange: event => setPrice(event.target.value)
+                      }}
+                    />
+                  </GridItem>
+                  <GridItem xs={12} sm={12} md={12}>
+                    <CustomInput
+                      labelText="Details"
+                      id="details"
+                      formControlProps={{
+                        fullWidth: true
+                      }}
+                      inputProps={{
+                        disabled: isUpdating || updated,
+                        value: details,
+                        onChange: event => setDetails(event.target.value)
+                      }}
+                    />
+                  </GridItem>
+                  <GridItem xs={12} sm={12} md={12}>
+                    <CustomInput
+                      labelText="Product Link"
+                      id="product-link"
+                      formControlProps={{
+                        fullWidth: true
+                      }}
+                      inputProps={{
+                        disabled: isUpdating || updated,
+                        multiline: true,
+                        rows: 2,
+                        value: productUrl,
+                        onChange: event => setProductUrl(event.target.value)
+                      }}
+                    />
+                  </GridItem>
+                  <GridItem xs={12} sm={12} md={12}>
+                    <CustomInput
+                      labelText="Image Link"
+                      id="image-link"
+                      formControlProps={{
+                        fullWidth: true
+                      }}
+                      inputProps={{
+                        disabled: isUpdating || updated,
+                        multiline: true,
+                        rows: 2,
+                        value: imageUrl,
+                        onChange: event => setImageUrl(event.target.value)
+                      }}
+                    />
+                  </GridItem>
+                  <GridItem xs={12} sm={12} md={12}>
+                    <div className={classes.buttonContainer}>
+                      <Button color="primary" disabled={!validateForm() || updated} type="submit">
+                        { updated
+                          ? <span>Success!</span>
+                          : <span>Update Product</span>
+                        }
+                      </Button>
                       { updated
-                        ? <span>Success!</span>
-                        : <span>Update Product</span>
+                        ? <Button color="success" onClick={props.clearSearch}>
+                            Update Next Product
+                          </Button>
+                        : <Button onClick={props.clearSearch}>
+                            Clear Form
+                          </Button>
                       }
-                    </Button>
-                    { updated
-                      ? <Button color="success" onClick={props.clearSearch}>
-                          Update Next Product
-                        </Button>
-                      : <Button color="default" onClick={props.clearSearch}>
-                          Clear Form
-                        </Button>
-                    }
-                  </div>
-                </GridItem>
+                    </div>
+                  </GridItem>
+                </form>
               </GridContainer>
             </CardBody>
             <CardFooter>

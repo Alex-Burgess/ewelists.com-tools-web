@@ -38,16 +38,17 @@ export default function SearchProductPage() {
     );
   }
 
-  const searchProduct = async () => {
+  const searchProduct = async (e) => {
+    e.preventDefault();
     setIsSearching(true);
 
     let response;
     try {
       response = await getProductItem(searchId);
-      console.log('Response: ' + JSON.stringify(response));
       setItem(response)
       setIsSearching(false);
       setItemExists(true);
+      setSearchError('');
     } catch (e) {
       onError(e);
       setIsSearching(false)
@@ -73,6 +74,7 @@ export default function SearchProductPage() {
               <h4 className={classes.searchTitle}>Search For Product</h4>
               <GridContainer>
                 <GridItem xs={12} sm={12} md={12}>
+                  <form onSubmit={searchProduct}>
                     <CustomInput
                       id="search-id"
                       formControlProps={{
@@ -86,13 +88,14 @@ export default function SearchProductPage() {
                       }}
                     />
                     <div className={classes.buttonContainer}>
-                      <Button color="primary" justIcon onClick={() => searchProduct()} disabled={!validateSearch() || isSearching}>
+                      <Button color="primary" justIcon disabled={!validateSearch() || isSearching} type="submit">
                         <Search />
                       </Button>
                       <Button justIcon onClick={() => clearSearch('')}>
                         <Clear />
                       </Button>
                     </div>
+                  </form>
                 </GridItem>
               </GridContainer>
             </CardBody>

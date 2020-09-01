@@ -2,7 +2,10 @@ import {
   grayColor
 } from "assets/jss/material-dashboard-react.js";
 
+import checkboxAdnRadioStyle from "assets/jss/material-dashboard-react/checkboxAdnRadioStyle.js";
+
 const createNewProductStyle = {
+  ...checkboxAdnRadioStyle,
   cardCategoryWhite: {
     "&,& a,& a:hover,& a:focus": {
       color: "rgba(255,255,255,.62)",
@@ -41,6 +44,9 @@ const createNewProductStyle = {
   },
   buttonContainer: {
     marginTop: "15px"
+  },
+  results: {
+    display: "inline-block"
   }
 };
 
