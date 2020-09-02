@@ -198,17 +198,18 @@ export default function UpdateProducts(props) {
                           }}
                         />
                       </GridItem>
+                      <GridItem xs={12} sm={12} md={12}>
+                        <Button color="primary" disabled={!validateForm() || updated} type="submit">
+                          { updated
+                            ? <span>Success!</span>
+                            : <span>Update Product</span>
+                          }
+                        </Button>
+                      </GridItem>
                     </GridContainer>
                   </form>
                 </CardBody>
                 <CardFooter>
-                  <Button color="primary" disabled={!validateForm() || updated} type="submit">
-                    { updated
-                      ? <span>Success!</span>
-                      : <span>Update Product</span>
-                    }
-                  </Button>
-                  <br />
                   {updateError
                     ? <div className={classes.errorContainer}>
                         <ErrorText>
