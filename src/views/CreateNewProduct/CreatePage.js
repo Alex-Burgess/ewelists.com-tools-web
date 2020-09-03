@@ -1,22 +1,21 @@
 import React, { useState } from 'react';
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
-import Checkbox from "@material-ui/core/Checkbox";
-import Check from "@material-ui/icons/Check";
 // core components
 import GridItem from "components/Grid/GridItem.js";
 import GridContainer from "components/Grid/GridContainer.js";
-import CustomInput from "components/CustomInput/CustomInput.js";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
-import CardFooter from "components/Card/CardFooter.js";
-import Button from "components/CustomButtons/Button.js";
-import ErrorText from "components/Typography/Danger.js";
-import SuccessText from "components/Typography/Success.js";
+import ProductForm from "components/Product/Form.js"
+import FormButtons from "components/Product/FormButtons.js"
+import Environments from "components/Product/EnvironmentSelector.js"
+import Result from "components/Product/Result.js"
+import ProductSidebar from "components/Product/Sidebar.js";
 // libs
 import { createProduct } from "libs/apiLib.js";
 import { onError } from "libs/errorLib";
+import { validateUrl, validatePrice, verifyAmazonImage } from "libs/validateLib";
 
 import styles from "assets/jss/material-dashboard-react/views/createNewProductStyle.js";
 
@@ -38,6 +37,9 @@ export default function CreateNewProduct(props) {
   const [updateTest, setUpdateTest] = useState(true);
   const [updateStaging, setUpdateStaging] = useState(true);
   const [updateProd, setUpdateProd] = useState(true);
+  const [priceError, setPriceError] = useState(false);
+  const [productUrlError, setProductUrlError] = useState(false);
+  const [imageUrlError, setImageUrlError] = useState(false);
 
   const handleToggle = value => {
     switch (value) {
@@ -71,20 +73,44 @@ export default function CreateNewProduct(props) {
     return (
       brand.length > 0 &&
       details.length > 0 &&
-      price.length > 0 &&
       retailer.length > 0 &&
       productUrl.length > 0 &&
-      imageUrl.length > 0
+      imageUrl.length > 0 &&
+      price.length > 0 &&
+      !(priceError) &&
+      !(productUrlError) &&
+      !(imageUrlError)
     );
   }
 
-  const updateImageUrl = (url) => {
-    if (url.includes('amazon.co.uk')) {
-      var image = url.match(/src="(.*)" ></);
-      console.log("amazon image url: " + image[1])
-      setImageUrl(image[1])
+  const updatePrice = (p) => {
+    setPrice(p);
+
+    if (p.length > 0 && (! validatePrice(p))) {
+      setPriceError(true);
     } else {
-      setImageUrl(url)
+      setPriceError(false);
+    }
+  }
+
+  const updateProductUrl = (url) => {
+    setProductUrl(url);
+
+    if (url.length > 0 && (! validateUrl(url))) {
+      setProductUrlError(true);
+    } else {
+      setProductUrlError(false);
+    }
+  }
+
+  const updateImageUrl = (url) => {
+    url = verifyAmazonImage(url);
+    setImageUrl(url)
+
+    if (url.length > 0 && (! validateUrl(url))) {
+      setImageUrlError(true)
+    } else {
+      setImageUrlError(false)
     }
   }
 
@@ -136,6 +162,9 @@ export default function CreateNewProduct(props) {
     setImageUrl('');
     setUpdateError('');
     setUpdated(false);
+    setPriceError(false);
+    setProductUrlError(false);
+    setImageUrlError(false);
   }
 
   return (
@@ -149,197 +178,59 @@ export default function CreateNewProduct(props) {
             </CardHeader>
             <CardBody>
               <form onSubmit={updateProduct}>
+                <ProductForm
+                  isUpdating={isUpdating}
+                  updated={updated}
+                  brand={brand}
+                  updateBrand={setBrand}
+                  retailer={retailer}
+                  updateRetailer={setRetailer}
+                  price={price}
+                  updatePrice={updatePrice}
+                  priceError={priceError}
+                  details={details}
+                  updateDetails={setDetails}
+                  productUrl={productUrl}
+                  updateProductUrl={updateProductUrl}
+                  productUrlError={productUrlError}
+                  imageUrl={imageUrl}
+                  updateImageUrl={updateImageUrl}
+                  imageUrlError={imageUrlError}
+                />
                 <GridContainer>
-                  <GridItem xs={12} sm={12} md={4}>
-                    <CustomInput
-                      labelText="Brand"
-                      id="brand"
-                      formControlProps={{
-                        fullWidth: true
-                      }}
-                      inputProps={{
-                        disabled: isUpdating || updated,
-                        value: brand,
-                        onChange: event => setBrand(event.target.value)
-                      }}
-                    />
-                  </GridItem>
-                  <GridItem xs={12} sm={12} md={4}>
-                    <CustomInput
-                      labelText="Retailer"
-                      id="retailer"
-                      formControlProps={{
-                        fullWidth: true
-                      }}
-                      inputProps={{
-                        disabled: isUpdating || updated,
-                        value: retailer,
-                        onChange: event => setRetailer(event.target.value)
-                      }}
-                    />
-                  </GridItem>
-                  <GridItem xs={12} sm={12} md={4}>
-                    <CustomInput
-                      labelText="Price"
-                      id="price"
-                      formControlProps={{
-                        fullWidth: true
-                      }}
-                      inputProps={{
-                        disabled: isUpdating || updated,
-                        value: price,
-                        onChange: event => setPrice(event.target.value)
-                      }}
-                    />
-                  </GridItem>
-                  <GridItem xs={12} sm={12} md={12}>
-                    <CustomInput
-                      labelText="Details"
-                      id="details"
-                      formControlProps={{
-                        fullWidth: true
-                      }}
-                      inputProps={{
-                        disabled: isUpdating || updated,
-                        value: details,
-                        onChange: event => setDetails(event.target.value)
-                      }}
-                    />
-                  </GridItem>
-                  <GridItem xs={12} sm={12} md={12}>
-                    <CustomInput
-                      labelText="Product Link"
-                      id="product-link"
-                      formControlProps={{
-                        fullWidth: true
-                      }}
-                      inputProps={{
-                        disabled: isUpdating || updated,
-                        multiline: true,
-                        rows: 2,
-                        value: productUrl,
-                        onChange: event => setProductUrl(event.target.value)
-                      }}
-                    />
-                  </GridItem>
-                  <GridItem xs={12} sm={12} md={12}>
-                    <CustomInput
-                      labelText="Image Link"
-                      id="image-link"
-                      formControlProps={{
-                        fullWidth: true
-                      }}
-                      inputProps={{
-                        disabled: isUpdating || updated,
-                        multiline: true,
-                        rows: 2,
-                        value: imageUrl,
-                        onChange: event => updateImageUrl(event.target.value)
-                      }}
+                  <GridItem xs={12} sm={6} md={6}>
+                    <Environments
+                      testChecked={updateTest}
+                      stagingChecked={updateStaging}
+                      prodChecked={updateProd}
+                      handleToggle={handleToggle}
                     />
                   </GridItem>
                   <GridItem xs={12} sm={6} md={6}>
-                    <div className={classes.buttonContainer}>
-                      <span>
-                        Test
-                      </span>
-                      <Checkbox
-                        checked={updateTest}
-                        tabIndex={-1}
-                        onClick={() => handleToggle('test')}
-                        checkedIcon={<Check className={classes.checkedIcon} />}
-                        icon={<Check className={classes.uncheckedIcon} />}
-                        classes={{
-                          checked: classes.checked,
-                          root: classes.root
-                        }}
-                      />
-                      <span>
-                        Staging
-                      </span>
-                      <Checkbox
-                        checked={updateStaging}
-                        tabIndex={-1}
-                        onClick={() => handleToggle('staging')}
-                        checkedIcon={<Check className={classes.checkedIcon} />}
-                        icon={<Check className={classes.uncheckedIcon} />}
-                        classes={{
-                          checked: classes.checked,
-                          root: classes.root
-                        }}
-                      />
-                      <span>
-                        Prod
-                      </span>
-                      <Checkbox
-                        checked={updateProd}
-                        tabIndex={-1}
-                        onClick={() => handleToggle('prod')}
-                        checkedIcon={<Check className={classes.checkedIcon} />}
-                        icon={<Check className={classes.uncheckedIcon} />}
-                        classes={{
-                          checked: classes.checked,
-                          root: classes.root
-                        }}
-                      />
-                  </div>
-                  </GridItem>
-                  <GridItem xs={12} sm={6} md={6}>
-                    <div className={classes.buttonContainer}>
-                      <Button color="primary" disabled={!validateForm() || updated} type="submit">
-                        { updated
-                          ? <span>Success!</span>
-                          : <span>Create</span>
-                        }
-                      </Button>
-                      { updated
-                        ? <Button color="success" onClick={nextProduct}>
-                            Create Next
-                          </Button>
-                        : <Button onClick={nextProduct}>
-                            Clear
-                          </Button>
-                      }
-                    </div>
+                    <FormButtons
+                      updated={updated}
+                      validate={validateForm}
+                      alternateAction={nextProduct}
+                      submitLabel="Create"
+                      successLabel="Create Next"
+                    />
                   </GridItem>
                 </GridContainer>
               </form>
             </CardBody>
-            <CardFooter className={classes.results}>
-              {productId
-                ? <SuccessText>
-                    <p>New products Id: {productId}</p>
-                  </SuccessText>
-                : null
-              }
-              {updateError
-                ? <ErrorText>
-                    <p>{updateError}</p>
-                  </ErrorText>
-                : null
-              }
-            </CardFooter>
+            <Result
+              successMessage={productId && "New products Id: " + productId}
+              errorMessage={updateError}
+            />
           </Card>
         </GridItem>
         <GridItem xs={12} sm={12} md={4}>
-          <GridContainer>
-            <GridItem xs={12} sm={12} md={12}>
-              <Card>
-                <CardBody>
-                  <h4 className={classes.cardTitle}>Product Link</h4>
-                  <a href={productUrl} target="_blank" rel="noopener noreferrer">{brand} - {details}</a>
-                </CardBody>
-              </Card>
-            </GridItem>
-            <GridItem xs={12} sm={12} md={12}>
-              <Card>
-                <CardBody>
-                  <h4 className={classes.cardTitle}>Product Image</h4>
-                  <img src={imageUrl} className={classes.productImage} alt="..." />
-                </CardBody>
-              </Card>
-            </GridItem>
-          </GridContainer>
+          <ProductSidebar
+            brand={brand}
+            details={details}
+            productUrl={productUrl}
+            imageUrl={imageUrl}
+          />
         </GridItem>
       </GridContainer>
     </div>

@@ -64,6 +64,13 @@ const customInputStyle = {
     margin: "27px 0 0 0",
     position: "relative",
     verticalAlign: "unset",
+  },
+  errorLabel: {
+    ...defaultFont,
+    color: dangerColor[0] + " !important",
+    fontWeight: "400",
+    fontSize: "12px",
+    marginTop: "4px"
   }
 };
 

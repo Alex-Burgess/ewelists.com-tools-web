@@ -45,15 +45,6 @@ const updateProductStyle = theme => ({
       lineHeight: "1"
     }
   },
-  tableLink: {
-    color: grayColor[2]
-  },
-  iconLink: {
-    color: grayColor[0]
-  },
-  productImage: {
-    maxWidth: "250px"
-  },
   customFormControl: {
     paddingTop: "14px",
     marginTop: "0px",

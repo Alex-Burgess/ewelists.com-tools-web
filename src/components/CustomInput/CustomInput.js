@@ -23,7 +23,8 @@ export default function CustomInput(props) {
     labelProps,
     inputProps,
     error,
-    success
+    success,
+    helperText
   } = props;
 
   const labelClasses = classNames({
@@ -66,6 +67,12 @@ export default function CustomInput(props) {
       ) : success ? (
         <Check className={classes.feedback + " " + classes.labelRootSuccess} />
       ) : null}
+      {error
+        ? <div className={classes.errorLabel}>
+            {helperText}
+          </div>
+        : null
+      }
     </FormControl>
   );
 }
@@ -77,5 +84,6 @@ CustomInput.propTypes = {
   inputProps: PropTypes.object,
   formControlProps: PropTypes.object,
   error: PropTypes.bool,
-  success: PropTypes.bool
+  success: PropTypes.bool,
+  helperText: PropTypes.string
 };

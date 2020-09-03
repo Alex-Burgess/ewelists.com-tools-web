@@ -36,9 +36,6 @@ const updateUsersGiftsStyle = {
   iconLink: {
     color: grayColor[0]
   },
-  productImage: {
-    maxWidth: "250px"
-  }
 };
 
 export default updateUsersGiftsStyle;
