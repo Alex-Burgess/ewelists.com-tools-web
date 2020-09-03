@@ -10,6 +10,10 @@ const productStyle = {
   },
   results: {
     display: "inline-block"
+  },
+  cardSidebar: {
+    marginTop: "10px",
+    marginBottom: "10px"
   }
 };
 

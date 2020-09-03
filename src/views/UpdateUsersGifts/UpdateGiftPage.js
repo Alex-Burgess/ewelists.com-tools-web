@@ -13,6 +13,7 @@ import ProductForm from "components/Product/Form.js"
 import FormButtons from "components/Product/FormButtons.js"
 import Result from "components/Product/Result.js"
 import ProductSidebar from "components/Product/Sidebar.js";
+import ListDetails from "components/Product/ListDetails.js";
 // libs
 import { getNotFoundItem, updateNotfoundProduct } from "libs/apiLib.js";
 import { onError } from "libs/errorLib";
@@ -28,6 +29,9 @@ export default function UpdateProducts(props) {
 
   const productId = props.match.params.id;
 
+  const [listOwner, setListOwner] = useState('');
+  const [listTitle, setListTitle] = useState('');
+  const [listUrl, setListUrl] = useState('');
   const [brand, setBrand] = useState('');
   const [details, setDetails] = useState('');
   const [price, setPrice] = useState('');
@@ -51,6 +55,9 @@ export default function UpdateProducts(props) {
         setBrand(response.brand);
         setDetails(response.details);
         setProductUrl(response.productUrl);
+        setListOwner(response.creatorsName);
+        setListTitle(response.listTitle);
+        setListUrl('https://test.ewelists.com/lists/' + response.listId);
       } catch (e) {
         onError(e);
         setLoadError('No product exists with this id: ' + productId)
@@ -197,6 +204,11 @@ export default function UpdateProducts(props) {
                 details={details}
                 productUrl={productUrl}
                 imageUrl={imageUrl}
+              />
+            <ListDetails
+                listOwner={listOwner}
+                listTitle={listTitle}
+                listUrl={listUrl}
               />
             </GridItem>
           </GridContainer>
