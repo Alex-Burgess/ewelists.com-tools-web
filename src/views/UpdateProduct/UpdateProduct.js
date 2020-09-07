@@ -10,7 +10,7 @@ import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
 import ProductForm from "components/Product/Form.js"
 import FormButtons from "components/Product/FormButtons.js"
-// import Environments from "components/Product/EnvironmentSelector.js"
+import Environments from "components/Product/EnvironmentSelector.js"
 import Result from "components/Product/Result.js"
 import ProductSidebar from "components/Product/Sidebar.js";
 // libs
@@ -37,6 +37,9 @@ export default function UpdateProduct(props) {
   const [isUpdating, setIsUpdating] = useState(false);
   const [updateError, setUpdateError] = useState('');
   const [updated, setUpdated] = useState(false);
+  const [updateTest, setUpdateTest] = useState(true);
+  const [updateStaging, setUpdateStaging] = useState(true);
+  const [updateProd, setUpdateProd] = useState(true);
   const [priceError, setPriceError] = useState(false);
   const [productUrlError, setProductUrlError] = useState(false);
   const [imageUrlError, setImageUrlError] = useState(false);
@@ -50,6 +53,33 @@ export default function UpdateProduct(props) {
     setImageUrl(item.imageUrl);
   }, [item]);
 
+  const handleToggle = value => {
+    switch (value) {
+      case "test":
+        if (updateTest) {
+          setUpdateTest(false)
+        } else {
+          setUpdateTest(true)
+        }
+        break;
+      case "staging":
+        if (updateStaging) {
+          setUpdateStaging(false)
+        } else {
+          setUpdateStaging(true)
+        }
+        break;
+      case "prod":
+        if (updateProd) {
+          setUpdateProd(false)
+        } else {
+          setUpdateProd(true)
+        }
+        break;
+      default:
+        break;
+    }
+  };
 
   const validateForm = () => {
     return (
@@ -106,17 +136,22 @@ export default function UpdateProduct(props) {
       "price": price,
       "retailer": retailer,
       "productUrl": productUrl,
-      "imageUrl": imageUrl
+      "imageUrl": imageUrl,
+      "test": updateTest,
+      "staging": updateStaging,
+      "prod": updateProd
     }
 
     try {
-      await updateProductItem(body, productId);
+      const response = await updateProductItem(body, productId);
+      console.log('Response: ' + JSON.stringify(response));
       setIsUpdating(false);
       setUpdated(true);
     } catch (e) {
       onError(e);
       setIsUpdating(false);
-      setUpdateError(e.response.data.error);
+      console.log('Response: ' + JSON.stringify(e.response.data));
+      setUpdateError('There was an error when updating one or more environments.');
     }
   }
 
@@ -150,7 +185,15 @@ export default function UpdateProduct(props) {
                   imageUrlError={imageUrlError}
                 />
                 <GridContainer>
-                  <GridItem xs={12} sm={12} md={12}>
+                  <GridItem xs={12} sm={6} md={6}>
+                    <Environments
+                      testChecked={updateTest}
+                      stagingChecked={updateStaging}
+                      prodChecked={updateProd}
+                      handleToggle={handleToggle}
+                    />
+                  </GridItem>
+                  <GridItem xs={12} sm={6} md={6}>
                     <FormButtons
                       updated={updated}
                       validate={validateForm}

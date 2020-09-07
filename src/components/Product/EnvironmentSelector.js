@@ -61,8 +61,8 @@ export default function EnvironmentSelector(props) {
 }
 
 EnvironmentSelector.propTypes = {
-  testChecked: PropTypes.string,
-  stagingChecked: PropTypes.string,
-  prodChecked: PropTypes.string,
+  testChecked: PropTypes.bool,
+  stagingChecked: PropTypes.bool,
+  prodChecked: PropTypes.bool,
   handleToggle: PropTypes.func
 };

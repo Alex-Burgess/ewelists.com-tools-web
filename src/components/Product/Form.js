@@ -135,13 +135,13 @@ ProductForm.propTypes = {
   updateRetailer: PropTypes.func,
   price: PropTypes.string,
   updatePrice: PropTypes.func,
-  priceError: PropTypes.string,
+  priceError: PropTypes.bool,
   details: PropTypes.string,
   updateDetails: PropTypes.func,
   productUrl: PropTypes.string,
   updateProductUrl: PropTypes.func,
-  productUrlError: PropTypes.string,
+  productUrlError: PropTypes.bool,
   imageUrl: PropTypes.string,
   updateImageUrl: PropTypes.func,
-  imageUrlError: PropTypes.string
+  imageUrlError: PropTypes.bool
 };

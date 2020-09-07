@@ -55,6 +55,9 @@ const updateProductStyle = theme => ({
   },
   buttonContainer: {
     display: "inline-flex"
+  },
+  state: {
+    display: "inline-block"
   }
 });
 

@@ -44,7 +44,14 @@ export default function DisplayGiftsPage() {
     const allproducts = Object.entries(items).map(
         ([key, p]) =>
           mobile
-            ? [p['brand'], p['details']]
+            ? [
+                <Link to={"/admin/update-users-gifts/" + p['productId']} className={classes.tableLink}>
+                  {p['brand']}
+                </Link>,
+                <Link to={"/admin/update-users-gifts/" + p['productId']} className={classes.tableLink}>
+                  {p['details']}
+                </Link>
+              ]
             : [
                 <Link to={"/admin/update-users-gifts/" + p['productId']} className={classes.tableLink}>
                   {p['brand']}

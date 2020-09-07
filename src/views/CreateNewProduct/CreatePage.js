@@ -114,7 +114,7 @@ export default function CreateNewProduct(props) {
     }
   }
 
-  const updateProduct = async (e) => {
+  const create = async (e) => {
     e.preventDefault();
     setIsUpdating(true);
 
@@ -130,9 +130,8 @@ export default function CreateNewProduct(props) {
       "prod": updateProd
     }
 
-    let response;
     try {
-      response = await createProduct(body);
+      const response = await createProduct(body);
       console.log('Response: ' + JSON.stringify(response));
       setIsUpdating(false);
       setProductId(response.productId);
@@ -177,7 +176,7 @@ export default function CreateNewProduct(props) {
               <p className={classes.cardCategoryWhite}>Enter details for new product below, ensuring that the product link contains any affiliate tags.</p>
             </CardHeader>
             <CardBody>
-              <form onSubmit={updateProduct}>
+              <form onSubmit={create}>
                 <ProductForm
                   isUpdating={isUpdating}
                   updated={updated}

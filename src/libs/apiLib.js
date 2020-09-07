@@ -83,6 +83,19 @@ export const getProductItem = async (id) => {
   return response;
 }
 
+export const checkProductAcrossEnvironments = async (id) => {
+  let response;
+
+  try {
+    response = await API.get("tools", "/products/check/" + id);
+  } catch (e) {
+    onError("There was an unexpected error checking product across environments. Error: " + e.response.data.error);
+    throw e;
+  }
+
+  return response;
+}
+
 export const updateProductItem = async (body, id) => {
   let response;
 
