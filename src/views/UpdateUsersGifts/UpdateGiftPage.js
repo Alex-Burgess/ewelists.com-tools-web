@@ -15,7 +15,7 @@ import Result from "components/Product/Result.js"
 import ProductSidebar from "components/Product/Sidebar.js";
 import ListDetails from "components/Product/ListDetails.js";
 // libs
-import { getNotFoundItem, updateNotfoundProduct } from "libs/apiLib.js";
+import { getNotFoundItem, updateNotfoundProduct, queryDetails } from "libs/apiLib.js";
 import { onError } from "libs/errorLib";
 import { validateUrl, validatePrice, verifyAmazonImage } from "libs/validateLib";
 
@@ -39,9 +39,10 @@ export default function UpdateProducts(props) {
   const [productUrl, setProductUrl] = useState('');
   const [imageUrl, setImageUrl] = useState('');
   const [isUpdating, setIsUpdating] = useState(false);
+  const [updated, setUpdated] = useState(false);
   const [updateError, setUpdateError] = useState('');
   const [loadError, setLoadError] = useState('');
-  const [updated, setUpdated] = useState(false);
+  const [queryError, setQueryError] = useState('');
   const [priceError, setPriceError] = useState(false);
   const [productUrlError, setProductUrlError] = useState(false);
   const [imageUrlError, setImageUrlError] = useState(false);
@@ -57,10 +58,23 @@ export default function UpdateProducts(props) {
         setProductUrl(response.productUrl);
         setListOwner(response.creatorsName);
         setListTitle(response.listTitle);
+        //TODO update url based on environment
         setListUrl('https://test.ewelists.com/lists/' + response.listId);
       } catch (e) {
         onError(e);
         setLoadError('No product exists with this id: ' + productId)
+      }
+
+      let query;
+      try {
+        console.log("Querying for url: " + response.productUrl);
+        query = await queryDetails(encodeURIComponent(response.productUrl));
+        console.log("Querying returned: " + JSON.stringify(query));
+        query.price && setPrice(query.price);
+        query.retailer && setPrice(query.retailer);
+        query.imageUrl && setImageUrl(query.imageUrl);
+      }  catch (e) {
+        setQueryError(e)
       }
     }
 
