@@ -19,6 +19,7 @@ import ListDetails from "components/Product/ListDetails.js";
 import { getNotFoundItem, updateNotfoundProduct, queryDetails } from "libs/apiLib.js";
 import { onError } from "libs/errorLib";
 import { validateUrl, validatePrice, verifyAmazonImage } from "libs/validateLib";
+import config from 'config.js';
 
 import styles from "assets/jss/material-dashboard-react/views/updateUsersGiftsStyle.js";
 
@@ -60,8 +61,7 @@ export default function UpdateProducts(props) {
         setProductUrl(response.productUrl);
         setListOwner(response.creatorsName);
         setListTitle(response.listTitle);
-        //TODO update url based on environment
-        setListUrl('https://test.ewelists.com/lists/' + response.listId);
+        setListUrl(config.mainSiteDomain + '/lists/' + response.listId);
       } catch (e) {
         onError(e);
         setLoadError('No product exists with this id: ' + productId)
