@@ -16,7 +16,7 @@ import ProductSidebar from "components/Product/Sidebar.js";
 import ProductQuery from "components/Product/Query.js";
 import ListDetails from "components/Product/ListDetails.js";
 // libs
-import { getNotFoundItem, updateNotfoundProduct, queryDetails } from "libs/apiLib.js";
+import { getNotFoundItem, updateNotfoundProduct, querySiteDetails } from "libs/apiLib.js";
 import { onError } from "libs/errorLib";
 import { validateUrl, validatePrice, verifyAmazonImage } from "libs/validateLib";
 import config from 'config.js';
@@ -34,15 +34,21 @@ export default function UpdateProducts(props) {
   const [listOwner, setListOwner] = useState('');
   const [listTitle, setListTitle] = useState('');
   const [listUrl, setListUrl] = useState('');
+
   const [brand, setBrand] = useState('');
   const [details, setDetails] = useState('');
   const [price, setPrice] = useState('');
   const [retailer, setRetailer] = useState('');
   const [productUrl, setProductUrl] = useState('');
   const [imageUrl, setImageUrl] = useState('');
+
+  const [queryBrand, setQueryBrand] = useState('');
+  const [queryDetails, setQueryDetails] = useState('');
+
   const [isUpdating, setIsUpdating] = useState(false);
   const [updated, setUpdated] = useState(false);
   const [queryLoading, setQueryLoading] = useState(true);
+
   const [updateError, setUpdateError] = useState('');
   const [loadError, setLoadError] = useState('');
   const [queryError, setQueryError] = useState('');
@@ -70,12 +76,14 @@ export default function UpdateProducts(props) {
       let query;
       try {
         console.log("Querying for url: " + response.productUrl);
-        query = await queryDetails(encodeURIComponent(response.productUrl));
+        query = await querySiteDetails(encodeURIComponent(response.productUrl));
         console.log("Querying returned: " + JSON.stringify(query));
-        setQueryLoading(false);
         query.price && setPrice(query.price);
         query.retailer && setRetailer(query.retailer);
         query.imageUrl && setImageUrl(query.imageUrl);
+        query.brand && setQueryBrand(query.brand);
+        query.details && setQueryDetails(query.details);
+        setQueryLoading(false);
       }  catch (e) {
         setQueryError("Query Error");
         setQueryLoading(false);
@@ -221,8 +229,8 @@ export default function UpdateProducts(props) {
                 loading={queryLoading}
                 error={queryError}
                 retailer={retailer}
-                brand={brand}
-                details={details}
+                brand={queryBrand}
+                details={queryDetails}
                 price={price}
               />
               <ProductSidebar

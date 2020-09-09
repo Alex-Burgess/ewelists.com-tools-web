@@ -111,7 +111,7 @@ export const updateProductItem = async (body, id) => {
   return response;
 }
 
-export const queryDetails = async (url) => {
+export const querySiteDetails = async (url) => {
   let response;
 
   try {

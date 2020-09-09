@@ -13,7 +13,7 @@ import ErrorText from "components/Typography/Danger.js";
 import styles from "assets/jss/material-dashboard-react/components/productStyle.js";
 const useStyles = makeStyles(styles);
 
-export default function ProductSidebar(props) {
+export default function ProductQuery(props) {
   const classes = useStyles();
   const { loading, error, brand, details, price, retailer  } = props;
 
@@ -41,7 +41,7 @@ export default function ProductSidebar(props) {
   );
 }
 
-ProductSidebar.propTypes = {
+ProductQuery.propTypes = {
   loading: PropTypes.bool,
   error: PropTypes.string,
   brand: PropTypes.string,
