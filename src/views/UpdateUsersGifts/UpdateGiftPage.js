@@ -13,6 +13,7 @@ import ProductForm from "components/Product/Form.js"
 import FormButtons from "components/Product/FormButtons.js"
 import Result from "components/Product/Result.js"
 import ProductSidebar from "components/Product/Sidebar.js";
+import ProductQuery from "components/Product/Query.js";
 import ListDetails from "components/Product/ListDetails.js";
 // libs
 import { getNotFoundItem, updateNotfoundProduct, queryDetails } from "libs/apiLib.js";
@@ -40,6 +41,7 @@ export default function UpdateProducts(props) {
   const [imageUrl, setImageUrl] = useState('');
   const [isUpdating, setIsUpdating] = useState(false);
   const [updated, setUpdated] = useState(false);
+  const [queryLoading, setQueryLoading] = useState(true);
   const [updateError, setUpdateError] = useState('');
   const [loadError, setLoadError] = useState('');
   const [queryError, setQueryError] = useState('');
@@ -70,11 +72,13 @@ export default function UpdateProducts(props) {
         console.log("Querying for url: " + response.productUrl);
         query = await queryDetails(encodeURIComponent(response.productUrl));
         console.log("Querying returned: " + JSON.stringify(query));
+        setQueryLoading(false);
         query.price && setPrice(query.price);
         query.retailer && setPrice(query.retailer);
         query.imageUrl && setImageUrl(query.imageUrl);
       }  catch (e) {
-        setQueryError(e)
+        setQueryError(e);
+        setQueryLoading(false);
       }
     }
 
@@ -213,13 +217,21 @@ export default function UpdateProducts(props) {
               </Card>
             </GridItem>
             <GridItem xs={12} sm={12} md={4}>
+              <ProductQuery
+                loading={queryLoading}
+                error={queryError}
+                retailer={retailer}
+                brand={brand}
+                details={details}
+                price={price}
+              />
               <ProductSidebar
                 brand={brand}
                 details={details}
                 productUrl={productUrl}
                 imageUrl={imageUrl}
               />
-            <ListDetails
+              <ListDetails
                 listOwner={listOwner}
                 listTitle={listTitle}
                 listUrl={listUrl}
