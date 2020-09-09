@@ -74,10 +74,10 @@ export default function UpdateProducts(props) {
         console.log("Querying returned: " + JSON.stringify(query));
         setQueryLoading(false);
         query.price && setPrice(query.price);
-        query.retailer && setPrice(query.retailer);
+        query.retailer && setRetailer(query.retailer);
         query.imageUrl && setImageUrl(query.imageUrl);
       }  catch (e) {
-        setQueryError(e);
+        setQueryError("Query Error");
         setQueryLoading(false);
       }
     }
