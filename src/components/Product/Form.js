@@ -91,7 +91,7 @@ export default function ProductForm(props) {
             labelText="Product Link"
             id="product-link"
             error={productUrlError ? true : false}
-            helperText="Url must start with http or //"
+            helperText="Url is not valid"
             formControlProps={{
               fullWidth: true
             }}
@@ -109,7 +109,7 @@ export default function ProductForm(props) {
             labelText="Image Link"
             id="image-link"
             error={imageUrlError ? true : false}
-            helperText="Url must start with http or //"
+            helperText="Url is not valid"
             formControlProps={{
               fullWidth: true
             }}

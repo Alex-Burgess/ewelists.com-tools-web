@@ -13,12 +13,11 @@ import ProductForm from "components/Product/Form.js"
 import FormButtons from "components/Product/FormButtons.js"
 import Result from "components/Product/Result.js"
 import ProductSidebar from "components/Product/Sidebar.js";
-import ProductQuery from "components/Product/Query.js";
 import ListDetails from "components/Product/ListDetails.js";
 // libs
-import { getNotFoundItem, updateNotfoundProduct, querySiteDetails } from "libs/apiLib.js";
+import { getNotFoundItem, updateNotfoundProduct } from "libs/apiLib.js";
 import { onError } from "libs/errorLib";
-import { validateUrl, validatePrice, verifyAmazonImage } from "libs/validateLib";
+import { validateUrl, validatePrice, verifyAmazonImage, getRetailerFromUrl, validateImageUrl } from "libs/formsLib";
 import config from 'config.js';
 
 import styles from "assets/jss/material-dashboard-react/views/updateUsersGiftsStyle.js";
@@ -42,16 +41,11 @@ export default function UpdateProducts(props) {
   const [productUrl, setProductUrl] = useState('');
   const [imageUrl, setImageUrl] = useState('');
 
-  const [queryBrand, setQueryBrand] = useState('');
-  const [queryDetails, setQueryDetails] = useState('');
-
   const [isUpdating, setIsUpdating] = useState(false);
   const [updated, setUpdated] = useState(false);
-  const [queryLoading, setQueryLoading] = useState(true);
 
   const [updateError, setUpdateError] = useState('');
   const [loadError, setLoadError] = useState('');
-  const [queryError, setQueryError] = useState('');
   const [priceError, setPriceError] = useState(false);
   const [productUrlError, setProductUrlError] = useState(false);
   const [imageUrlError, setImageUrlError] = useState(false);
@@ -73,21 +67,9 @@ export default function UpdateProducts(props) {
         setLoadError('No product exists with this id: ' + productId)
       }
 
-      let query;
-      try {
-        console.log("Querying for url: " + response.productUrl);
-        query = await querySiteDetails(encodeURIComponent(response.productUrl));
-        console.log("Querying returned: " + JSON.stringify(query));
-        query.price && setPrice(query.price);
-        query.retailer && setRetailer(query.retailer);
-        query.imageUrl && setImageUrl(query.imageUrl);
-        query.brand && setQueryBrand(query.brand);
-        query.details && setQueryDetails(query.details);
-        setQueryLoading(false);
-      }  catch (e) {
-        setQueryError("Query Error");
-        setQueryLoading(false);
-      }
+      // Get retailer
+      const retailer = getRetailerFromUrl(response.productUrl);
+      setRetailer(retailer);
     }
 
     getItems();
@@ -124,6 +106,9 @@ export default function UpdateProducts(props) {
       setProductUrlError(true);
     } else {
       setProductUrlError(false);
+
+      const retailer = getRetailerFromUrl(url);
+      setRetailer(retailer);
     }
   }
 
@@ -131,7 +116,7 @@ export default function UpdateProducts(props) {
     url = verifyAmazonImage(url);
     setImageUrl(url)
 
-    if (url.length > 0 && (! validateUrl(url))) {
+    if (url.length > 0 && (! validateImageUrl(url))) {
       setImageUrlError(true)
     } else {
       setImageUrlError(false)
@@ -225,14 +210,6 @@ export default function UpdateProducts(props) {
               </Card>
             </GridItem>
             <GridItem xs={12} sm={12} md={4}>
-              <ProductQuery
-                loading={queryLoading}
-                error={queryError}
-                retailer={retailer}
-                brand={queryBrand}
-                details={queryDetails}
-                price={price}
-              />
               <ProductSidebar
                 brand={brand}
                 details={details}

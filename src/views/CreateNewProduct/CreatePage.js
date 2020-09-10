@@ -15,7 +15,7 @@ import ProductSidebar from "components/Product/Sidebar.js";
 // libs
 import { createProduct } from "libs/apiLib.js";
 import { onError } from "libs/errorLib";
-import { validateUrl, validatePrice, verifyAmazonImage } from "libs/validateLib";
+import { validateUrl, validatePrice, verifyAmazonImage, getRetailerFromUrl, validateImageUrl } from "libs/formsLib";
 
 import styles from "assets/jss/material-dashboard-react/views/createNewProductStyle.js";
 
@@ -100,6 +100,9 @@ export default function CreateNewProduct(props) {
       setProductUrlError(true);
     } else {
       setProductUrlError(false);
+
+      const retailer = getRetailerFromUrl(url);
+      setRetailer(retailer);
     }
   }
 
@@ -107,7 +110,7 @@ export default function CreateNewProduct(props) {
     url = verifyAmazonImage(url);
     setImageUrl(url)
 
-    if (url.length > 0 && (! validateUrl(url))) {
+    if (url.length > 0 && (! validateImageUrl(url))) {
       setImageUrlError(true)
     } else {
       setImageUrlError(false)

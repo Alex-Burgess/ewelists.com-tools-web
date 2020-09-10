@@ -110,16 +110,3 @@ export const updateProductItem = async (body, id) => {
 
   return response;
 }
-
-export const querySiteDetails = async (url) => {
-  let response;
-
-  try {
-    response = await API.get("tools", "/check/details/" + url);
-  } catch (e) {
-    onError("Could not retrieve details about product. Error: " + e.response.data.error);
-    throw e;
-  }
-
-  return response;
-}
