@@ -1,0 +1,19 @@
+{
+  "baseUrl": "https://staging.tools.ewelists.com",
+  "experimentalComponentTesting": true,
+  "componentFolder": "src",
+  "testFiles": "**/*spec.js",
+  "video": false,
+  "screenshotOnRunFailure": false,
+  "env": {
+    "userPoolId": "eu-west-1_DxVdItnPF",
+    "appClientId": "61jc00sq2iv9ftgodo1cv9in0c",
+    "identityPoolId": "eu-west-1:bcdb7f2e-b7ef-4249-9909-05ae18ee328d",
+    "domain": "staging-tools-ewelists.auth.eu-west-1.amazoncognito.com",
+    "redirect": "https://staging.tools.ewelists.com/",
+    "createUserScript": "python cypress/scripts/create_user.py",
+    "createListScript": "python cypress/scripts/create_list.py",
+    "deleteUserScript": "python cypress/scripts/delete_user.py",
+    "deleteListScript": "python cypress/scripts/delete_list.py"
+  }
+}

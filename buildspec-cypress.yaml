@@ -1,0 +1,10 @@
+version: 0.2
+phases:
+  install:
+    runtime-versions:
+      nodejs: 12
+    commands:
+      - npm install cypress --save-dev
+  build:
+    commands:
+      - npx cypress run --config-file cypress.staging.json --record --key=abc123

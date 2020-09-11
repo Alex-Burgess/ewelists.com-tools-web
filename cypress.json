@@ -1,0 +1,20 @@
+{
+  "baseUrl": "http://localhost:3000",
+  "experimentalComponentTesting": true,
+  "componentFolder": "src",
+  "testFiles": "**/*spec.js",
+  "video": false,
+  "screenshotOnRunFailure": false,
+  "env": {
+    "userPoolId": "eu-west-1_yVCCvB63n",
+    "appClientId": "6mdl2r47f7nl2tso37409fo85r",
+    "identityPoolId": "eu-west-1:b57e40f6-6a69-4dbb-9576-058b13dd5caa",
+    "domain": "test-tools-ewelists.auth.eu-west-1.amazoncognito.com",
+    "redirect": "http://localhost:3000/",
+    "createUserScript": "python cypress/scripts/create_user.py -p cypress-test",
+    "createListScript": "python cypress/scripts/create_list.py -p cypress-test",
+    "deleteUserScript": "python cypress/scripts/delete_user.py -p cypress-test",
+    "deleteListScript": "python cypress/scripts/delete_list.py -p cypress-test"
+  },
+  "projectId": "xp55mo"
+}

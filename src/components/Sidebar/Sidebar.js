@@ -77,6 +77,7 @@ export default function Sidebar(props) {
         className={classes.activePro + " " + classes.item}
         activeClassName="active"
         key="logout"
+        data-cy="sidebar-logout"
       >
         <ListItem button className={classes.itemLink}>
           <Person

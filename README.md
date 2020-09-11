@@ -21,9 +21,56 @@ Builds the app for a local/test environment to the `build` folder.
 ### `REACT_APP_STAGE=staging npm run build`
 Builds the application for staging environment.
 
+### `npx cypress open`
+Open cypress testing console.
+
+### `npx cypress run`
+Run cypress tests against local environment.
+
+### `npx cypress run --config-file cypress.staging.json`
+Run cypress tests with a different environment.
 
 ## Copy Content
 After building the application you can copy the content to S3:
 ```
 aws s3 sync build/ s3://test.tools.ewelists.com --delete
-zzz
+```
+
+## UI Testing
+To run the Cypress tests locally an IAM user with API key is required.
+
+1. Create IAM user in console, e.g. *CypressTestUser*
+1. Create cognito policy and attach to iam user:
+    ```
+    {
+      "Version": "2012-10-17",
+      "Statement": [
+          {
+              "Effect": "Allow",
+              "Action": "cognito-idp:*",
+              "Resource": [
+                  "arn:aws:cognito-idp:eu-west-1:<account_id>:userpool/<test_userpool_id>",
+                  "arn:aws:cognito-idp:eu-west-1:<account_id>:userpool/<staging_userpool_id>"
+              ]
+          }
+      ]
+    }
+    ```
+1. Create tables policy and attach to iam user:
+    ```
+    {
+        "Version": "2012-10-17",
+        "Statement": [
+            {
+                "Sid": "VisualEditor1",
+                "Effect": "Allow",
+                "Action": "dynamodb:*",
+                "Resource": [
+                    "arn:aws:dynamodb:eu-west-1:<account_id>:table/lists-test",
+                    "arn:aws:dynamodb:eu-west-1:<account_id>:table/lists-staging"
+                ]
+            }
+        ]
+    }
+    ```
+1. Create access key and setup local profile and credentials

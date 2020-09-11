@@ -1,0 +1,19 @@
+{
+  "baseUrl": "https://tools.ewelists.com",
+  "experimentalComponentTesting": true,
+  "componentFolder": "src",
+  "testFiles": "**/*spec.js",
+  "video": false,
+  "screenshotOnRunFailure": false,
+  "env": {
+    "userPoolId": "eu-west-1_pF22dcp03",
+    "appClientId": "2sj4rs9g2oejdja0lcfi7n9s1j",
+    "identityPoolId": "eu-west-1:22bc560f-7bb7-4381-94df-5cf865addaaa",
+    "domain": "tools-ewelists.auth.eu-west-1.amazoncognito.com",
+    "redirect": "https://tools.ewelists.com/",
+    "createUserScript": "python cypress/scripts/create_user.py",
+    "createListScript": "python cypress/scripts/create_list.py",
+    "deleteUserScript": "python cypress/scripts/delete_user.py",
+    "deleteListScript": "python cypress/scripts/delete_list.py"
+  }
+}
