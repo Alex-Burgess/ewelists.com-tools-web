@@ -1,4 +1,9 @@
 version: 0.2
+
+env:
+  parameter-store:
+    CYPRESS: /Cypress/Tools/Key
+
 phases:
   install:
     runtime-versions:
@@ -7,4 +12,4 @@ phases:
       - npm install cypress --save-dev
   build:
     commands:
-      - npx cypress run --config-file cypress.staging.json --record --key=abc123
+      - npx cypress run --config-file ${CONFIG} --headless --record --key=$CYPRESS --tag "${ENVIRONMENT}"

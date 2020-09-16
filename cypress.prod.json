@@ -15,5 +15,6 @@
     "createListScript": "python cypress/scripts/create_list.py",
     "deleteUserScript": "python cypress/scripts/delete_user.py",
     "deleteListScript": "python cypress/scripts/delete_list.py"
-  }
+  },
+  "projectId": "xp55mo"
 }

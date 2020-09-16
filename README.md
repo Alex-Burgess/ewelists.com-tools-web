@@ -24,10 +24,10 @@ Builds the application for staging environment.
 ### `npx cypress open`
 Open cypress testing console.
 
-### `npx cypress run`
+### `npx cypress run --tag "local"`
 Run cypress tests against local environment.
 
-### `npx cypress run --config-file cypress.staging.json`
+### `npx cypress run --config-file cypress.staging.json --tag "staging"`
 Run cypress tests with a different environment.
 
 ## Copy Content
