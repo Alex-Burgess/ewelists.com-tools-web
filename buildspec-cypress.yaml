@@ -12,4 +12,7 @@ phases:
       - npm install cypress --save-dev
   build:
     commands:
-      - COMMIT_INFO_BRANCH=Master COMMIT_INFO_SHA=$Commit_ID COMMIT_INFO_MESSAGE=$CommitMessage npx cypress run --config-file ${CONFIG} --headless --record --key=$CYPRESS --tag "${ENVIRONMENT},pipeline"
+      - echo $COMMIT_ID
+      - echo $COMMIT_MSG
+      - echo $COMMIT_URL
+      - COMMIT_INFO_BRANCH=Master COMMIT_INFO_SHA=$COMMIT_ID COMMIT_INFO_MESSAGE=$COMMIT_MSG npx cypress run --config-file ${CONFIG} --headless --record --key=$CYPRESS --tag "${ENVIRONMENT},pipeline"
