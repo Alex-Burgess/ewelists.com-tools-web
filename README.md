@@ -30,6 +30,12 @@ Run cypress tests against local environment.
 ### `npx cypress run --config-file cypress.staging.json --tag "staging"`
 Run cypress tests with a different environment.
 
+### `CYPRESS_TEST_TAGS=smoke npx cypress run`
+Run just smoke tests.
+
+### `CYPRESS_TEST_TAGS=regression npx cypress run`
+Run just regression tests
+
 ## Copy Content
 After building the application you can copy the content to S3:
 ```

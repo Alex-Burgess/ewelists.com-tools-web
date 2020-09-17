@@ -15,7 +15,7 @@ import ProductSidebar from "components/Product/Sidebar.js";
 // libs
 import { createProduct } from "libs/apiLib.js";
 import { onError } from "libs/errorLib";
-import { validateUrl, validatePrice, verifyAmazonImage, getRetailerFromUrl, validateImageUrl } from "libs/formsLib";
+import * as forms from "libs/formsLib";
 
 import styles from "assets/jss/material-dashboard-react/views/createNewProductStyle.js";
 
@@ -79,14 +79,15 @@ export default function CreateNewProduct(props) {
       price.length > 0 &&
       !(priceError) &&
       !(productUrlError) &&
-      !(imageUrlError)
+      !(imageUrlError) &&
+      forms.validateEnvironments(updateTest, updateStaging, updateProd)
     );
   }
 
   const updatePrice = (p) => {
     setPrice(p);
 
-    if (p.length > 0 && (! validatePrice(p))) {
+    if (p.length > 0 && (! forms.validatePrice(p))) {
       setPriceError(true);
     } else {
       setPriceError(false);
@@ -96,21 +97,21 @@ export default function CreateNewProduct(props) {
   const updateProductUrl = (url) => {
     setProductUrl(url);
 
-    if (url.length > 0 && (! validateUrl(url))) {
+    if (url.length > 0 && (! forms.validateUrl(url))) {
       setProductUrlError(true);
     } else {
       setProductUrlError(false);
 
-      const retailer = getRetailerFromUrl(url);
+      const retailer = forms.getRetailerFromUrl(url);
       setRetailer(retailer);
     }
   }
 
   const updateImageUrl = (url) => {
-    url = verifyAmazonImage(url);
+    url = forms.verifyAmazonImage(url);
     setImageUrl(url)
 
-    if (url.length > 0 && (! validateImageUrl(url))) {
+    if (url.length > 0 && (! forms.validateImageUrl(url))) {
       setImageUrlError(true)
     } else {
       setImageUrlError(false)

@@ -13,6 +13,12 @@ export function validateUrl(url) {
     return true;
 }
 
+export function validateEnvironments(test, staging, prod) {
+  return (
+    (test || staging || prod)
+  );
+}
+
 export function validateImageUrl(url) {
   return (
     url.length > 0 &&

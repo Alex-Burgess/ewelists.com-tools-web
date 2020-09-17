@@ -21,9 +21,9 @@ export default function ProductSidebar(props) {
           <Card className={classes.cardSidebar}>
             <CardBody>
               <h4 className={classes.cardTitle}>Product Details</h4>
-              <a href={productUrl} target="_blank" rel="noopener noreferrer">{brand} - {details}</a>
+              <a href={productUrl} target="_blank" rel="noopener noreferrer" data-cy="product-details-link">{brand} - {details}</a>
               <br />
-              <img src={imageUrl} className={classes.productImage} alt="..." />
+              <img src={imageUrl} className={classes.productImage} alt="..." data-cy="product-details-img"/>
             </CardBody>
           </Card>
         </GridItem>
