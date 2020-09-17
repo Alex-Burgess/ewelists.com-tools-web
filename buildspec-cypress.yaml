@@ -12,7 +12,5 @@ phases:
       - npm install cypress --save-dev
   build:
     commands:
-      - echo $COMMIT_ID
-      - echo $COMMIT_MSG
-      - echo $COMMIT_URL
-      - COMMIT_INFO_BRANCH=Master COMMIT_INFO_SHA=$COMMIT_ID COMMIT_INFO_MESSAGE=$COMMIT_MSG npx cypress run --config-file ${CONFIG} --headless --record --key=$CYPRESS --tag "${ENVIRONMENT},pipeline"
+      - URL=$(echo $COMMIT_URL | sed 's/api.github.com\/repos/github.com/' | sed 's/git\/commits/commit/')
+      - COMMIT_INFO_BRANCH=Master COMMIT_INFO_SHA=$COMMIT_ID COMMIT_INFO_MESSAGE=$COMMIT_MSG COMMIT_INFO_REMOTE=$URL npx cypress run --config-file ${CONFIG} --headless --record --key=$CYPRESS --tag "${ENVIRONMENT},pipeline"
