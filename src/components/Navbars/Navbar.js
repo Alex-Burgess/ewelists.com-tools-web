@@ -46,6 +46,7 @@ export default function Header(props) {
             color="inherit"
             aria-label="open drawer"
             onClick={props.handleDrawerToggle}
+            data-cy="mobile-nav-button"
           >
             <Menu />
           </IconButton>

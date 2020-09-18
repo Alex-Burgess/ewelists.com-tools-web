@@ -38,7 +38,13 @@ export function validatePrice(price) {
 export function verifyAmazonImage(url) {
   if (url.includes('amazon.co.uk')) {
     var image = url.match(/src="(.*)" ></);
-    return image[1];
+    if (image != null) {
+      if (image.length > 1) {
+        return image[1];
+      }
+    } else {
+      return url
+    }
   }
 
   return url

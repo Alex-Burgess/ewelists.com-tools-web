@@ -71,7 +71,7 @@ export default function SearchProductPage() {
   const renderEnvironmentStates = (states) => {
     console.log("Rendering states: " + JSON.stringify(states))
     return (
-      <div className={classes.errorContainer}>
+      <div className={classes.errorContainer} id="environment-results">
         <h4 className={classes.searchTitle}>Comparing product across environments:</h4>
         <ul>
           {Object.entries(states).map(([key,value])=>{
@@ -115,10 +115,10 @@ export default function SearchProductPage() {
                       }}
                     />
                     <div className={classes.buttonContainer}>
-                      <Button color="primary" justIcon disabled={!validateSearch() || isSearching} type="submit">
+                      <Button color="primary" justIcon disabled={!validateSearch() || isSearching} type="submit" data-cy="search-button">
                         <Search />
                       </Button>
-                      <Button justIcon onClick={() => clearSearch('')}>
+                      <Button justIcon onClick={() => clearSearch('')} data-cy="clear-search-button">
                         <Clear />
                       </Button>
                     </div>

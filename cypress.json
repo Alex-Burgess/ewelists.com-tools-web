@@ -11,10 +11,16 @@
     "identityPoolId": "eu-west-1:b57e40f6-6a69-4dbb-9576-058b13dd5caa",
     "domain": "test-tools-ewelists.auth.eu-west-1.amazoncognito.com",
     "redirect": "http://localhost:3000/",
-    "createUserScript": "python cypress/scripts/create_user.py -p cypress-test",
-    "createListScript": "python cypress/scripts/create_list.py -p cypress-test",
-    "deleteUserScript": "python cypress/scripts/delete_user.py -p cypress-test",
-    "deleteListScript": "python cypress/scripts/delete_list.py -p cypress-test"
+    "productsTable": "products-test",
+    "notfoundTable": "notfound-test",
+    "listsTable": "lists-test",
+    "createUserScript": "python cypress/scripts/create_user.py -P cypress-test",
+    "deleteUserScript": "python cypress/scripts/delete_user.py -P cypress-test",
+    "createProductScript": "python cypress/scripts/create_product.py -P cypress-test",
+    "deleteProductScript": "python cypress/scripts/delete_product.py -P cypress-test",
+    "createNotFoundScript": "python cypress/scripts/create_notfound.py -P cypress-test",
+    "createListScript": "python cypress/scripts/create_list.py -P cypress-test",
+    "deleteListScript": "python cypress/scripts/delete_list.py -P cypress-test"
   },
   "projectId": "xp55mo"
 }

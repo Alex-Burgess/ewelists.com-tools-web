@@ -13,6 +13,7 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import Icon from "@material-ui/core/Icon";
+import config from 'config.js';
 
 import styles from "assets/jss/material-dashboard-react/components/sidebarStyle.js";
 
@@ -27,7 +28,7 @@ export default function Sidebar(props) {
   const { color, logo, logoText, routes } = props;
 
   var links = (
-    <List className={classes.list}>
+    <List className={classes.list} data-cy="sidebar-links">
       {routes.map((prop, key) => {
         var listItemClasses;
 
@@ -97,9 +98,10 @@ export default function Sidebar(props) {
   var brand = (
     <div className={classes.logo}>
       <a
-        href="https://test.tools.ewelists.com"
+        href={config.toolsSiteDomain}
         className={classNames(classes.logoLink)}
         target="_blank"
+        data-cy="sidebar-link-home"
       >
         <div className={classes.logoImage}>
           <img src={logo} alt="logo" className={classes.img} />
@@ -123,6 +125,7 @@ export default function Sidebar(props) {
           ModalProps={{
             keepMounted: true // Better open performance on mobile.
           }}
+          id="admin-mobile-sidebar"
         >
           {brand}
           <div className={classes.sidebarWrapper}>
@@ -142,6 +145,7 @@ export default function Sidebar(props) {
           classes={{
             paper: classNames(classes.drawerPaper)
           }}
+          id="admin-desktop-sidebar"
         >
           {brand}
           <div className={classes.sidebarWrapper}>{links}{logout}</div>

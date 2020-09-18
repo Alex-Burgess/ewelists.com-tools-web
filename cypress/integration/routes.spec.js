@@ -12,7 +12,7 @@ TestFilter(['smoke', 'regression'], () => {
     const userEmail = "adminuser+routes@gmail.com"
 
     before(() => {
-      cy.exec(Cypress.env('createUserScript') + ' -e ' + userEmail + ' -n "Cypress AdminUser" -u ' + Cypress.env("userPoolId"))
+      cy.exec(Cypress.env('createUserScript') + ' -e ' + userEmail + ' -n "Cypress AdminUser" -U ' + Cypress.env("userPoolId"))
     })
 
     beforeEach(() => {
@@ -20,7 +20,7 @@ TestFilter(['smoke', 'regression'], () => {
     })
 
     after(() => {
-      cy.exec(Cypress.env('deleteUserScript') + ' -e ' + userEmail + ' -u ' + Cypress.env("userPoolId"))
+      cy.exec(Cypress.env('deleteUserScript') + ' -e ' + userEmail + ' -U ' + Cypress.env("userPoolId"))
     })
 
     pages.forEach((page) => {

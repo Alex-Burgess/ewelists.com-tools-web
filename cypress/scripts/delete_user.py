@@ -31,9 +31,9 @@ def delete_from_cognito(email, user_pool_id, profile=None):
 
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='Delete test user in cognito and lists table.')
+    parser = argparse.ArgumentParser(description='Delete test user in cognito.')
     parser.add_argument('-e', '--email', help='users email', required=True)
-    parser.add_argument('-u', '--user_pool', help='userpool id', required=True)
-    parser.add_argument('-p', '--profile', help='local user profile', required=False)
+    parser.add_argument('-U', '--user_pool', help='userpool id', required=True)
+    parser.add_argument('-P', '--profile', help='local user profile', required=False)
     args = parser.parse_args()
     main(args.email, args.user_pool, args.profile)

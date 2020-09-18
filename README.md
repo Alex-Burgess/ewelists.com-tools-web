@@ -73,7 +73,11 @@ To run the Cypress tests locally an IAM user with API key is required.
                 "Action": "dynamodb:*",
                 "Resource": [
                     "arn:aws:dynamodb:eu-west-1:<account_id>:table/lists-test",
-                    "arn:aws:dynamodb:eu-west-1:<account_id>:table/lists-staging"
+                    "arn:aws:dynamodb:eu-west-1:<account_id>:table/lists-staging",
+                    "arn:aws:dynamodb:eu-west-1:<account_id>:table/products-test",
+                    "arn:aws:dynamodb:eu-west-1:<account_id>:table/products-staging",
+                    "arn:aws:dynamodb:eu-west-1:<account_id>:table/notfound-test",
+                    "arn:aws:dynamodb:eu-west-1:<account_id>:table/notfound-staging"
                 ]
             }
         ]

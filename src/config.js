@@ -9,7 +9,8 @@ const test = {
     APP_CLIENT_ID: "6mdl2r47f7nl2tso37409fo85r",
     IDENTITY_POOL_ID: "eu-west-1:b57e40f6-6a69-4dbb-9576-058b13dd5caa"
   },
-  mainSiteDomain: "https://test.ewelists.com"
+  mainSiteDomain: "https://test.ewelists.com",
+  toolsSiteDomain: "https://test.tools.ewelists.com"
 };
 
 const staging = {
@@ -23,7 +24,8 @@ const staging = {
     APP_CLIENT_ID: "61jc00sq2iv9ftgodo1cv9in0c",
     IDENTITY_POOL_ID: "eu-west-1:bcdb7f2e-b7ef-4249-9909-05ae18ee328d"
   },
-  mainSiteDomain: "https://staging.ewelists.com"
+  mainSiteDomain: "https://staging.ewelists.com",
+  toolsSiteDomain: "https://staging.tools.ewelists.com"
 };
 
 const prod = {
@@ -37,7 +39,8 @@ const prod = {
     APP_CLIENT_ID: "2sj4rs9g2oejdja0lcfi7n9s1j",
     IDENTITY_POOL_ID: "eu-west-1:22bc560f-7bb7-4381-94df-5cf865addaaa"
   },
-  mainSiteDomain: "https://ewelists.com"
+  mainSiteDomain: "https://ewelists.com",
+  toolsSiteDomain: "https://tools.ewelists.com"
 };
 
 var config;
@@ -62,6 +65,7 @@ switch (process.env.REACT_APP_STAGE) {
     config = test;
     config['environment'] = "test";
     config['mainSiteDomain'] = "http://localhost:3000";
+    config['toolsSiteDomain'] = "http://localhost:3000";
     break;
 }
 

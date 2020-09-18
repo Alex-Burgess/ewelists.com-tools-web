@@ -18,13 +18,13 @@ export default function ProductResults(props) {
     <CardFooter className={classes.results}>
       {successMessage
         ? <SuccessText>
-            <p>{successMessage}</p>
+            <p id="success-message">{successMessage}</p>
           </SuccessText>
         : null
       }
       {errorMessage
         ? <ErrorText>
-            <p>{errorMessage}</p>
+            <p id="error-message">{errorMessage}</p>
           </ErrorText>
         : null
       }
