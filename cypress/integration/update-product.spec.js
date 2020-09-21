@@ -22,12 +22,12 @@ TestFilter(['smoke', 'regression'], () => {
       cy.exec(Cypress.env('deleteProductScript') + ' -p ' + productId + ' -t ' + Cypress.env("productsTable"))
     })
 
-    it('Updates existing product', function () {
+    it.only('Updates existing product', function () {
       // Search for product
       cy.get('#search-id').type(productId)
       cy.get('[data-cy=search-button]').click()
       cy.contains('Comparing product across environments:')
-      cy.get('#environment-results').contains('staging : DOES NOT EXIST')
+      cy.get('#environment-results').get('li')
       cy.contains('Search Result: ' + productId)
 
       // Make Change
