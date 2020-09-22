@@ -42,12 +42,10 @@ phases:
   #   commands:
   #     - npm run cy:verify
   #     - npm run cy:info
-  #     - echo "Codebuild Initiator $CODEBUILD_INITIATOR"
   build:
     # Per https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-env-vars.html
     # use $CODEBUILD_INITIATOR as it provides the entity that started the build
     # which is unique and can be used as the --ci-build-id for the Cypress Dashboard
     # e.g. awsCodeBuild-cypress-kitchen-sink/AWSCodeBuild-a14fc8e3-b5d6-42f9-9067-345d48a8f0fd
     commands:
-      - URL=$(echo $COMMIT_URL | sed 's/api.github.com\/repos/github.com/' | sed 's/git\/commits/commit/')
-      - COMMIT_INFO_BRANCH=Master COMMIT_INFO_SHA=$COMMIT_ID COMMIT_INFO_MESSAGE=$COMMIT_MSG COMMIT_INFO_REMOTE=$URL CYPRESS_TEST_TAGS=$TEST_TAG npx cypress run --config-file ${CONFIG} --headless --record --parallel --ci-build-id $CODEBUILD_INITIATOR --key=$CYPRESS --tag "${ENVIRONMENT},pipeline"
+      - npx cypress run --config-file cypress.staging.json --headless --record --parallel --ci-build-id $CODEBUILD_INITIATOR --key=$CYPRESS --tag "staging,pipeline"
