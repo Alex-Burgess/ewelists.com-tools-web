@@ -48,4 +48,4 @@ phases:
     # which is unique and can be used as the --ci-build-id for the Cypress Dashboard
     # e.g. awsCodeBuild-cypress-kitchen-sink/AWSCodeBuild-a14fc8e3-b5d6-42f9-9067-345d48a8f0fd
     commands:
-      - CYPRESS_TEST_TAGS=$TEST_TAG npx cypress run --config-file ${CONFIG} --headless --record --parallel --ci-build-id $CODEBUILD_INITIATOR --key=$CYPRESS --tag "${ENVIRONMENT},codebuild,manual"
+      - CYPRESS_TEST_TAGS=$TEST_TAG npx cypress run --config-file ${CONFIG} --headless --record --parallel --ci-build-id $CODEBUILD_INITIATOR --key=$CYPRESS --tag "$ENVIRONMENT,$TEST_TAG,codebuild,manual"
