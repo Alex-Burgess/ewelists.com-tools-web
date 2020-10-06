@@ -1,6 +1,6 @@
 # ewelists.com-tools-web
 
-React Web Application relating to the [Tools](https://github.com/Alex-Burgess/ewelists.com-tools) application.
+React Web Application relating to the [Tools](https://github.com/Ewelists/ewelists.com-tools) application.
 
 ## Useful links
 - [Serverless Stack](https://serverless-stack.com)
