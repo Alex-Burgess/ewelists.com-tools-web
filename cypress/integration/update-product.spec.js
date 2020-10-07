@@ -2,33 +2,40 @@ import TestFilter from '../support/TestFilter';
 
 TestFilter(['smoke', 'regression'], () => {
   describe('Update Product E2E Tests', () => {
-    const userEmail = "adminuser+update@gmail.com"
-    let productId = ''
+    let seedResponse = {}
+    let user = {}
 
     before(function () {
-      cy.exec(Cypress.env('createUserScript') + ' -e ' + userEmail + ' -n "Cypress AdminUser" -U ' + Cypress.env("userPoolId"))
-      cy.exec(Cypress.env('createProductScript') + ' -t ' + Cypress.env("productsTable")).then((result) => {
-        productId = result.stdout
+      cy.fixture('update-product.json').then(fixture => {
+        user = fixture.user
+        cy.log("User email: " + user.email)
+      })
+
+      cy.exec(Cypress.env('seedDB') + ' -f cypress/fixtures/update-product.json').then((result) => {
+        seedResponse = JSON.parse(result.stdout)
+        cy.log("User ID: " + seedResponse.user_id)
+      })
+    })
+
+    after(() => {
+      seedResponse['user_email'] = user.email
+      cy.exec(Cypress.env('cleanDB') + ' -d \'' + JSON.stringify(seedResponse) + '\'').then((result) => {
+        cy.log("Delete response: " + result.stdout)
       })
     })
 
     beforeEach(() => {
-      cy.login(userEmail, 'P4ssw0rd!')
+      cy.login(user.email, user.password)
       cy.visit('/admin/update-product')
     })
 
-    after(() => {
-      cy.exec(Cypress.env('deleteUserScript') + ' -e ' + userEmail + ' -U ' + Cypress.env("userPoolId"))
-      cy.exec(Cypress.env('deleteProductScript') + ' -p ' + productId + ' -t ' + Cypress.env("productsTable"))
-    })
-
-    it.only('Updates existing product', function () {
+    it('Updates existing product', function () {
       // Search for product
-      cy.get('#search-id').type(productId)
+      cy.get('#search-id').type(seedResponse.product_ids[0])
       cy.get('[data-cy=search-button]').click()
       cy.contains('Comparing product across environments:')
       cy.get('#environment-results').get('li')
-      cy.contains('Search Result: ' + productId)
+      cy.contains('Search Result: ' + seedResponse.product_ids[0])
 
       // Make Change
       cy.get('#price').clear().type('40.00')
@@ -40,31 +47,38 @@ TestFilter(['smoke', 'regression'], () => {
 
       // Reset form
       cy.get('[data-cy=alt-button]').click()
-      cy.contains('Search Result: ' + productId).should('not.exist')
+      cy.contains('Search Result: ' + seedResponse.product_ids[0]).should('not.exist')
     })
   })
 })
 
 TestFilter(['regression'], () => {
   describe('Update Product Search Tests', () => {
-    const userEmail = "adminuser+update@gmail.com"
-    let productId = ''
+    let seedResponse = {}
+    let user = {}
 
     before(function () {
-      cy.exec(Cypress.env('createUserScript') + ' -e ' + userEmail + ' -n "Cypress AdminUser" -U ' + Cypress.env("userPoolId"))
-      cy.exec(Cypress.env('createProductScript') + ' -t ' + Cypress.env("productsTable")).then((result) => {
-        productId = result.stdout
+      cy.fixture('update-product.json').then(fixture => {
+        user = fixture.user
+        cy.log("User email: " + user.email)
+      })
+
+      cy.exec(Cypress.env('seedDB') + ' -f cypress/fixtures/update-product.json').then((result) => {
+        seedResponse = JSON.parse(result.stdout)
+        cy.log("User ID: " + seedResponse.user_id)
+      })
+    })
+
+    after(() => {
+      seedResponse['user_email'] = user.email
+      cy.exec(Cypress.env('cleanDB') + ' -d \'' + JSON.stringify(seedResponse) + '\'').then((result) => {
+        cy.log("Delete response: " + result.stdout)
       })
     })
 
     beforeEach(() => {
-      cy.login(userEmail, 'P4ssw0rd!')
+      cy.login(user.email, user.password)
       cy.visit('/admin/update-product')
-    })
-
-    after(() => {
-      cy.exec(Cypress.env('deleteUserScript') + ' -e ' + userEmail + ' -U ' + Cypress.env("userPoolId"))
-      cy.exec(Cypress.env('deleteProductScript') + ' -p ' + productId + ' -t ' + Cypress.env("productsTable"))
     })
 
     it('should have disabled search button until product id entered', function () {
@@ -86,20 +100,20 @@ TestFilter(['regression'], () => {
     })
 
     it('should return update form', function () {
-      cy.get('#search-id').type(productId)
+      cy.get('#search-id').type(seedResponse.product_ids[0])
       cy.get('[data-cy=search-button]').click()
-      cy.contains('Search Result: ' + productId)
+      cy.contains('Search Result: ' + seedResponse.product_ids[0])
     })
 
     it('should clear search field and close update form', function () {
-      cy.get('#search-id').type(productId)
+      cy.get('#search-id').type(seedResponse.product_ids[0])
       cy.get('[data-cy=search-button]').click()
-      cy.contains('Search Result: ' + productId)
+      cy.contains('Search Result: ' + seedResponse.product_ids[0])
 
       // Clear form
       cy.get('[data-cy=clear-search-button]').click()
       cy.get('#search-id').should('have.value', '')
-      cy.contains('Search Result: ' + productId).should('not.exist')
+      cy.contains('Search Result: ' + seedResponse.product_ids[0]).should('not.exist')
     })
   })
 })
@@ -107,20 +121,32 @@ TestFilter(['regression'], () => {
 
 TestFilter(['regression'], () => {
   describe('Update Product Search Result Form Tests', () => {
-    const userEmail = "adminuser+update@gmail.com"
-    let productId = ''
+    let seedResponse = {}
+    let user = {}
 
     before(function () {
-      cy.exec(Cypress.env('createUserScript') + ' -e ' + userEmail + ' -n "Cypress AdminUser" -U ' + Cypress.env("userPoolId"))
-      cy.exec(Cypress.env('createProductScript') + ' -t ' + Cypress.env("productsTable")).then((result) => {
-        productId = result.stdout
+      cy.fixture('update-product.json').then(fixture => {
+        user = fixture.user
+        cy.log("User email: " + user.email)
+      })
+
+      cy.exec(Cypress.env('seedDB') + ' -f cypress/fixtures/update-product.json').then((result) => {
+        seedResponse = JSON.parse(result.stdout)
+        cy.log("User ID: " + seedResponse.user_id)
+      })
+    })
+
+    after(() => {
+      seedResponse['user_email'] = user.email
+      cy.exec(Cypress.env('cleanDB') + ' -d \'' + JSON.stringify(seedResponse) + '\'').then((result) => {
+        cy.log("Delete response: " + result.stdout)
       })
     })
 
     beforeEach(function () {
-      cy.login(userEmail, 'P4ssw0rd!')
+      cy.login(user.email, user.password)
       cy.visit('/admin/update-product')
-      cy.get('#search-id').type(productId)
+      cy.get('#search-id').type(seedResponse.product_ids[0])
       cy.get('[data-cy=search-button]').click()
 
       cy.fixture('product2').then((product) => {
@@ -128,16 +154,11 @@ TestFilter(['regression'], () => {
       })
     })
 
-    after(() => {
-      cy.exec(Cypress.env('deleteUserScript') + ' -e ' + userEmail + ' -U ' + Cypress.env("userPoolId"))
-      cy.exec(Cypress.env('deleteProductScript') + ' -p ' + productId + ' -t ' + Cypress.env("productsTable"))
-    })
-
     it('should clear form', function () {
       cy.get('[data-cy=alt-button]').contains('Clear')
       cy.get('[data-cy=alt-button]').click()
       cy.get('#search-id').should('have.value', '')
-      cy.contains('Search Result: ' + productId).should('not.exist')
+      cy.contains('Search Result: ' + seedResponse.product_ids[0]).should('not.exist')
     })
 
     it('should have disabled submit button with incomplete form', function () {

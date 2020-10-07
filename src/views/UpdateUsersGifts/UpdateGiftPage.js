@@ -34,6 +34,8 @@ export default function UpdateProducts(props) {
   const [listTitle, setListTitle] = useState('');
   const [listUrl, setListUrl] = useState('');
 
+  const [newProductId, setNewProductId] = useState('');
+
   const [brand, setBrand] = useState('');
   const [details, setDetails] = useState('');
   const [price, setPrice] = useState('');
@@ -137,7 +139,9 @@ export default function UpdateProducts(props) {
     }
 
     try {
-      await updateNotfoundProduct(body, productId);
+      const response = await updateNotfoundProduct(body, productId);
+      setNewProductId(response['products-product-created_succeeded'].productId.S);
+
       setIsUpdating(false);
       setUpdated(true);
       setUpdateError('');
@@ -205,6 +209,7 @@ export default function UpdateProducts(props) {
                   </form>
                 </CardBody>
                 <Result
+                  successMessage={newProductId && "New products Id: " + newProductId}
                   errorMessage={updateError}
                 />
               </Card>

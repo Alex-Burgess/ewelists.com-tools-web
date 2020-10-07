@@ -1,20 +1,30 @@
 import TestFilter from '../support/TestFilter';
 
 TestFilter(['regression'], () => {
-  const userEmail = "adminuser+forms@gmail.com"
-
   describe('Form Validation Tests', () => {
-    before(function () {
-      cy.exec(Cypress.env('createUserScript') + ' -e ' + userEmail + ' -n "Cypress AdminUser" -U ' + Cypress.env("userPoolId"))
-    })
+    let user = {}
 
-    beforeEach(function () {
-      cy.login(userEmail, 'P4ssw0rd!')
-      cy.visit('/admin/create-product')
+    before(() => {
+      cy.fixture('forms.json').then(fixture => {
+        user = fixture.user
+        cy.log("User email: " + user.email)
+      })
+
+      cy.exec(Cypress.env('seedDB') + ' -f cypress/fixtures/forms.json').then((result) => {
+        const seedResponse = JSON.parse(result.stdout)
+        cy.log("User ID: " + seedResponse.user_id)
+      })
     })
 
     after(() => {
-      cy.exec(Cypress.env('deleteUserScript') + ' -e ' + userEmail + ' -U ' + Cypress.env("userPoolId"))
+      cy.exec(Cypress.env('cleanDB') + ' -d \'' + JSON.stringify({"user_email": user.email}) + '\'').then((result) => {
+        cy.log("Delete response: " + result.stdout)
+      })
+    })
+
+    beforeEach(function () {
+      cy.login(user.email, user.password)
+      cy.visit('/admin/create-product')
     })
 
     it('should show incorrect price error', () => {
@@ -82,23 +92,33 @@ TestFilter(['regression'], () => {
 
 TestFilter(['regression'], () => {
   describe('Product Details Card Tests', () => {
-    const userEmail = "adminuser+forms@gmail.com"
+    let user = {}
 
-    before(function () {
-      cy.exec(Cypress.env('createUserScript') + ' -e ' + userEmail + ' -n "Cypress AdminUser" -U ' + Cypress.env("userPoolId"))
-    })
+    before(() => {
+      cy.fixture('forms.json').then(fixture => {
+        user = fixture.user
+        cy.log("User email: " + user.email)
+      })
 
-    beforeEach(function () {
-      cy.login(userEmail, 'P4ssw0rd!')
-      cy.visit('/admin/create-product')
-
-      cy.fixture('product').then((product) => {
-        this.product = product
+      cy.exec(Cypress.env('seedDB') + ' -f cypress/fixtures/forms.json').then((result) => {
+        const seedResponse = JSON.parse(result.stdout)
+        cy.log("User ID: " + seedResponse.user_id)
       })
     })
 
     after(() => {
-      cy.exec(Cypress.env('deleteUserScript') + ' -e ' + userEmail + ' -U ' + Cypress.env("userPoolId"))
+      cy.exec(Cypress.env('cleanDB') + ' -d \'' + JSON.stringify({"user_email": user.email}) + '\'').then((result) => {
+        cy.log("Delete response: " + result.stdout)
+      })
+    })
+
+    beforeEach(function () {
+      cy.fixture('product').then((product) => {
+        this.product = product
+      })
+      
+      cy.login(user.email, user.password)
+      cy.visit('/admin/create-product')
     })
 
     it('should have product details link and image', function () {

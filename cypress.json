@@ -1,26 +1,28 @@
 {
   "baseUrl": "http://localhost:3000",
+  "defaultCommandTimeout": 10000,
   "experimentalComponentTesting": true,
   "componentFolder": "src",
   "testFiles": "**/*spec.js",
   "video": false,
   "screenshotOnRunFailure": false,
   "env": {
+    "failOnSnapshotDiff": false,
+    "updateSnapshots": false,
+    "snapshotSizes": [
+      "iphone-x",
+      "ipad-2",
+      ["ipad-2", "landscape"],
+      "macbook-13",
+      [1920, 1080]
+    ],
     "userPoolId": "eu-west-1_yVCCvB63n",
     "appClientId": "6mdl2r47f7nl2tso37409fo85r",
     "identityPoolId": "eu-west-1:b57e40f6-6a69-4dbb-9576-058b13dd5caa",
     "domain": "test-tools-ewelists.auth.eu-west-1.amazoncognito.com",
     "redirect": "http://localhost:3000/",
-    "productsTable": "products-test",
-    "notfoundTable": "notfound-test",
-    "listsTable": "lists-test",
-    "createUserScript": "python cypress/scripts/create_user.py -P cypress-test",
-    "deleteUserScript": "python cypress/scripts/delete_user.py -P cypress-test",
-    "createProductScript": "python cypress/scripts/create_product.py -P cypress-test",
-    "deleteProductScript": "python cypress/scripts/delete_product.py -P cypress-test",
-    "createNotFoundScript": "python cypress/scripts/create_notfound.py -P cypress-test",
-    "createListScript": "python cypress/scripts/create_list.py -P cypress-test",
-    "deleteListScript": "python cypress/scripts/delete_list.py -P cypress-test"
+    "seedDB": "python cypress/scripts/seed_db.py -P cypress-test -u eu-west-1_yVCCvB63n -l lists-test -n notfound-test -p products-test",
+    "cleanDB": "python cypress/scripts/clean_db.py -P cypress-test -u eu-west-1_yVCCvB63n -l lists-test -n notfound-test -p products-test"
   },
   "projectId": "xp55mo"
 }

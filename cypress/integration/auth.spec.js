@@ -24,14 +24,24 @@ TestFilter(['smoke', 'regression'], () => {
   })
 
   describe('Login E2E Tests', () => {
-    const userEmail = "adminuser+login@gmail.com"
+    let user = {}
 
-    before(() => {
-      cy.exec(Cypress.env('createUserScript') + ' -e ' + userEmail + ' -n "Cypress AdminUser" -U ' + Cypress.env("userPoolId"))
+    beforeEach(() => {
+      cy.fixture('auth.json').then(fixture => {
+        user = fixture.user
+        cy.log("User email: " + user.email)
+      })
+
+      cy.exec(Cypress.env('seedDB') + ' -f cypress/fixtures/auth.json').then((result) => {
+        const seedResponse = JSON.parse(result.stdout)
+        cy.log("User ID: " + seedResponse.user_id)
+      })
     })
 
-    after(() => {
-      cy.exec(Cypress.env('deleteUserScript') + ' -e ' + userEmail + ' -U ' + Cypress.env("userPoolId"))
+    afterEach(() => {
+      cy.exec(Cypress.env('cleanDB') + ' -d \'' + JSON.stringify({"user_email": user.email}) + '\'').then((result) => {
+        cy.log("Delete response: " + result.stdout)
+      })
     })
 
     it('Logs in with username and password', () => {
@@ -39,12 +49,12 @@ TestFilter(['smoke', 'regression'], () => {
       cy.contains('ewelists admin tools')
 
       cy.get('#email')
-        .type(userEmail)
-        .should('have.value', userEmail)
+        .type(user.email)
+        .should('have.value', user.email)
 
       cy.get('#password')
-        .type('P4ssw0rd!')
-        .should('have.value', 'P4ssw0rd!')
+        .type(user.password)
+        .should('have.value', user.password)
 
       cy.get('[data-cy=login]').click()
 
@@ -52,22 +62,9 @@ TestFilter(['smoke', 'regression'], () => {
       cy.contains('Dashboard')
       cy.url().should('eq', Cypress.config().baseUrl + '/admin/dashboard')
     })
-  })
-
-
-  describe('Logout E2E Tests', () => {
-    const userEmail = "adminuser+logout@gmail.com"
-
-    before(() => {
-      cy.exec(Cypress.env('createUserScript') + ' -e ' + userEmail + ' -n "Cypress AdminUser" -U ' + Cypress.env("userPoolId"))
-      cy.login(userEmail, 'P4ssw0rd!')
-    })
-
-    after(() => {
-      cy.exec(Cypress.env('deleteUserScript') + ' -e ' + userEmail + ' -U ' + Cypress.env("userPoolId"))
-    })
 
     it('Logs out', () => {
+      cy.login(user.email, user.password)
       cy.visit('/')
       cy.url().should('eq', Cypress.config().baseUrl + '/admin/dashboard')
       cy.contains('Dashboard')

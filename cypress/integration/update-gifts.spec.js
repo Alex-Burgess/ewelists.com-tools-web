@@ -2,45 +2,37 @@ import TestFilter from '../support/TestFilter';
 
 TestFilter(['smoke', 'regression'], () => {
   describe('Update Users Gifts E2E Tests', () => {
-    const userEmail = "adminuser+updategifts@gmail.com"
-    let listId = ''
-    let userId = ''
-    let notFoundId = ''
-    let productId = ''
+    let seedResponse = {}
+    let user = {}
 
-    before(function () {
-      cy.exec(Cypress.env('createUserScript') + ' -e ' + userEmail + ' -n "Cypress AdminUser" -U ' + Cypress.env("userPoolId")).then((result) => {
-        userId = result.stdout
-        cy.log('User ID: ' + userId)
-
-        cy.exec(Cypress.env('createListScript') + ' -u ' + userId + ' -t ' + Cypress.env("listsTable")).then((result) => {
-          listId = result.stdout
-          cy.log('List ID: ' + listId)
-
-          cy.exec(Cypress.env('createNotFoundScript') + ' -L ' + Cypress.env("listsTable") + ' -N ' + Cypress.env("notfoundTable") + ' -u ' + userId + ' -l ' + listId ).then((result) => {
-            notFoundId = result.stdout
-            cy.log('Notfound Product ID: ' + notFoundId)
-          })
-        })
+    before(() => {
+      cy.fixture('update-gifts.json').then(fixture => {
+        user = fixture.user
+        cy.log("User email: " + user.email)
       })
-    })
 
-    beforeEach(function () {
-      cy.login(userEmail, 'P4ssw0rd!')
-      cy.visit('/admin/update-users-gifts')
-
-      cy.fixture('product2').then((product) => {
-        this.product = product
+      cy.exec(Cypress.env('seedDB') + ' -f cypress/fixtures/update-gifts.json').then((result) => {
+        seedResponse = JSON.parse(result.stdout)
+        cy.log("User ID: " + seedResponse.user_id)
+        cy.log("List ID: " + seedResponse.list_id)
+        cy.log("Products IDs: " + seedResponse.product_ids)
       })
     })
 
     after(() => {
-      cy.exec(Cypress.env('deleteUserScript') + ' -e ' + userEmail + ' -U ' + Cypress.env("userPoolId"))
-      cy.exec(Cypress.env('deleteListScript') + ' -l ' + listId + ' -u ' + userId + ' -t ' + Cypress.env("listsTable"))
-      cy.exec(Cypress.env('deleteProductScript') + ' -p ' + notFoundId + ' -t ' + Cypress.env("notfoundTable"))
-      if (productId.length > 0) {
-          cy.exec(Cypress.env('deleteProductScript') + ' -p ' + productId + ' -t ' + Cypress.env("productsTable"))
-      }
+      seedResponse['user_email'] = user.email
+      cy.exec(Cypress.env('cleanDB') + ' -d \'' + JSON.stringify(seedResponse) + '\'').then((result) => {
+        cy.log("Delete response: " + result.stdout)
+      })
+    })
+
+    beforeEach(function () {
+      cy.fixture('product2').then((product) => {
+        this.product = product
+      })
+
+      cy.login(user.email, user.password)
+      cy.visit('/admin/update-users-gifts')
     })
 
     it('Updates new gift', function () {
@@ -49,8 +41,9 @@ TestFilter(['smoke', 'regression'], () => {
       cy.get('table').contains('td', 'Baby Cardigan');
 
       // Find link to test item
-      cy.get('table').get('a[href="/admin/update-users-gifts/' + notFoundId + '"]').eq(0).click();
-      cy.contains('Product ID: ' + notFoundId)
+      cy.get('table').get('a[href="/admin/update-users-gifts/' + seedResponse.product_ids[0] + '"]').eq(0).click();
+      cy.contains('Product ID: ' + seedResponse.product_ids[0])
+      cy.contains('John Lewis')
 
       // Complete form
       cy.get('#brand').clear().type(this.product.brand)
@@ -61,6 +54,13 @@ TestFilter(['smoke', 'regression'], () => {
       cy.get('[data-cy=submit-button]').contains('Success!')
       cy.get('[data-cy=alt-button]').contains('Update Next')
 
+      // Get product id to delete
+      cy.get("#success-message").invoke("text").then((value) => {
+        const id = value.split(': ')[1]
+        cy.log("New productId:" + id)
+        seedResponse['product_ids'].push(id)
+      });
+
       // Check table is reloaded
       cy.get('[data-cy=alt-button]').click()
       cy.url().should('eq', Cypress.config().baseUrl + '/admin/update-users-gifts')
@@ -70,47 +70,39 @@ TestFilter(['smoke', 'regression'], () => {
 
 
 TestFilter(['regression'], () => {
-  describe.only('Update Users Gifts Form Tests', () => {
-    const userEmail = "adminuser+updategifts@gmail.com"
-    let listId = ''
-    let userId = ''
-    let notFoundId = ''
-    let productId = ''
+  describe('Update Users Gifts Form Tests', () => {
+    let seedResponse = {}
+    let user = {}
 
-    before(function () {
-      cy.exec(Cypress.env('createUserScript') + ' -e ' + userEmail + ' -n "Cypress AdminUser" -U ' + Cypress.env("userPoolId")).then((result) => {
-        userId = result.stdout
-        cy.log('User ID: ' + userId)
-
-        cy.exec(Cypress.env('createListScript') + ' -u ' + userId + ' -t ' + Cypress.env("listsTable")).then((result) => {
-          listId = result.stdout
-          cy.log('List ID: ' + listId)
-
-          cy.exec(Cypress.env('createNotFoundScript') + ' -L ' + Cypress.env("listsTable") + ' -N ' + Cypress.env("notfoundTable") + ' -u ' + userId + ' -l ' + listId ).then((result) => {
-            notFoundId = result.stdout
-            cy.log('Notfound Product ID: ' + notFoundId)
-          })
-        })
+    before(() => {
+      cy.fixture('update-gifts.json').then(fixture => {
+        user = fixture.user
+        cy.log("User email: " + user.email)
       })
-    })
 
-    beforeEach(function () {
-      cy.login(userEmail, 'P4ssw0rd!')
-      cy.visit('/admin/update-users-gifts')
-      cy.get('table').get('a[href="/admin/update-users-gifts/' + notFoundId + '"]').eq(0).click();
-
-      cy.fixture('product2').then((product) => {
-        this.product = product
+      cy.exec(Cypress.env('seedDB') + ' -f cypress/fixtures/update-gifts.json').then((result) => {
+        seedResponse = JSON.parse(result.stdout)
+        cy.log("User ID: " + seedResponse.user_id)
+        cy.log("List ID: " + seedResponse.list_id)
+        cy.log("Products IDs: " + seedResponse.product_ids)
       })
     })
 
     after(() => {
-      cy.exec(Cypress.env('deleteUserScript') + ' -e ' + userEmail + ' -U ' + Cypress.env("userPoolId"))
-      cy.exec(Cypress.env('deleteListScript') + ' -l ' + listId + ' -u ' + userId + ' -t ' + Cypress.env("listsTable"))
-      cy.exec(Cypress.env('deleteProductScript') + ' -p ' + notFoundId + ' -t ' + Cypress.env("notfoundTable"))
-      if (productId.length > 0) {
-          cy.exec(Cypress.env('deleteProductScript') + ' -p ' + productId + ' -t ' + Cypress.env("productsTable"))
-      }
+      seedResponse['user_email'] = user.email
+      cy.exec(Cypress.env('cleanDB') + ' -d \'' + JSON.stringify(seedResponse) + '\'').then((result) => {
+        cy.log("Delete response: " + result.stdout)
+      })
+    })
+
+    beforeEach(function () {
+      cy.fixture('product2').then((product) => {
+        this.product = product
+      })
+
+      cy.login(user.email, user.password)
+      cy.visit('/admin/update-users-gifts')
+      cy.get('table').get('a[href="/admin/update-users-gifts/' + seedResponse.product_ids[0] + '"]').eq(0).click();
     })
 
     it('should close form and show table', function () {

@@ -9,18 +9,29 @@ const pages = [
 
 TestFilter(['smoke', 'regression'], () => {
   describe('Route Tests', () => {
-    const userEmail = "adminuser+routes@gmail.com"
+    let user = {}
 
     before(() => {
-      cy.exec(Cypress.env('createUserScript') + ' -e ' + userEmail + ' -n "Cypress AdminUser" -U ' + Cypress.env("userPoolId"))
-    })
+      cy.fixture('routes.json').then(fixture => {
+        user = fixture.user
+        cy.log("User email: " + user.email)
+      })
 
-    beforeEach(() => {
-      cy.login(userEmail, 'P4ssw0rd!')
+      cy.exec(Cypress.env('seedDB') + ' -f cypress/fixtures/routes.json').then((result) => {
+        const seedResponse = JSON.parse(result.stdout)
+        cy.log("User ID: " + seedResponse.user_id)
+      })
     })
 
     after(() => {
-      cy.exec(Cypress.env('deleteUserScript') + ' -e ' + userEmail + ' -U ' + Cypress.env("userPoolId"))
+      cy.exec(Cypress.env('cleanDB') + ' -d \'' + JSON.stringify({"user_email": user.email}) + '\'').then((result) => {
+        cy.log("Delete response: " + result.stdout)
+      })
+    })
+
+
+    beforeEach(() => {
+      cy.login(user.email, user.password)
     })
 
     pages.forEach((page) => {
