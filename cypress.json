@@ -16,13 +16,13 @@
       "macbook-13",
       [1920, 1080]
     ],
-    "userPoolId": "eu-west-1_yVCCvB63n",
-    "appClientId": "6mdl2r47f7nl2tso37409fo85r",
-    "identityPoolId": "eu-west-1:b57e40f6-6a69-4dbb-9576-058b13dd5caa",
+    "userPoolId": "eu-west-1_yec0GzMyD",
+    "appClientId": "5qi07g3hls0jcn7fhrmkeoalnn",
+    "identityPoolId": "eu-west-1:6d7c2341-d418-491e-9a48-8365be5febd8",
     "domain": "test-tools-ewelists.auth.eu-west-1.amazoncognito.com",
     "redirect": "http://localhost:3000/",
-    "seedDB": "python cypress/scripts/seed_db.py -P cypress-test -u eu-west-1_yVCCvB63n -l lists-test -n notfound-test -p products-test",
-    "cleanDB": "python cypress/scripts/clean_db.py -P cypress-test -u eu-west-1_yVCCvB63n -l lists-test -n notfound-test -p products-test"
+    "seedDB": "python cypress/scripts/seed_db.py -P cypress-test -u eu-west-1_yec0GzMyD -l lists-test -n notfound-test -p products-test",
+    "cleanDB": "python cypress/scripts/clean_db.py -P cypress-test -u eu-west-1_yec0GzMyD -l lists-test -n notfound-test -p products-test"
   },
   "projectId": "xp55mo"
 }

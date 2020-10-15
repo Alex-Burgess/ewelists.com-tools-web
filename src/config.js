@@ -1,13 +1,13 @@
 const test = {
   apiGateway: {
     REGION: "eu-west-1",
-    TOOLS: "https://fi04ss055h.execute-api.eu-west-1.amazonaws.com/test/tools"
+    TOOLS: "https://b7mk5vs6r1.execute-api.eu-west-1.amazonaws.com/test/tools"
   },
   cognito: {
     REGION: "eu-west-1",
-    USER_POOL_ID: "eu-west-1_yVCCvB63n",
-    APP_CLIENT_ID: "6mdl2r47f7nl2tso37409fo85r",
-    IDENTITY_POOL_ID: "eu-west-1:b57e40f6-6a69-4dbb-9576-058b13dd5caa"
+    USER_POOL_ID: "eu-west-1_yec0GzMyD",
+    APP_CLIENT_ID: "5qi07g3hls0jcn7fhrmkeoalnn",
+    IDENTITY_POOL_ID: "eu-west-1:6d7c2341-d418-491e-9a48-8365be5febd8"
   },
   mainSiteDomain: "https://test.ewelists.com",
   toolsSiteDomain: "https://test.tools.ewelists.com"
@@ -16,13 +16,13 @@ const test = {
 const staging = {
   apiGateway: {
     REGION: "eu-west-1",
-    TOOLS: "https://fgkx791rd5.execute-api.eu-west-1.amazonaws.com/staging/tools"
+    TOOLS: "https://krjgxt13qb.execute-api.eu-west-1.amazonaws.com/staging/tools"
   },
   cognito: {
     REGION: "eu-west-1",
-    USER_POOL_ID: "eu-west-1_DxVdItnPF",
-    APP_CLIENT_ID: "61jc00sq2iv9ftgodo1cv9in0c",
-    IDENTITY_POOL_ID: "eu-west-1:bcdb7f2e-b7ef-4249-9909-05ae18ee328d"
+    USER_POOL_ID: "eu-west-1_m02XYmJZ9",
+    APP_CLIENT_ID: "qi2g0bu56ll4pbum6tnaemdv0",
+    IDENTITY_POOL_ID: "eu-west-1:45ca1b74-5bbc-4713-a153-5e920d7793cc"
   },
   mainSiteDomain: "https://staging.ewelists.com",
   toolsSiteDomain: "https://staging.tools.ewelists.com"

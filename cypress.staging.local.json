@@ -21,8 +21,8 @@
     "identityPoolId": "eu-west-1:45ca1b74-5bbc-4713-a153-5e920d7793cc",
     "domain": "staging-tools-ewelists.auth.eu-west-1.amazoncognito.com",
     "redirect": "https://staging.tools.ewelists.com/",
-    "seedDB": "python cypress/scripts/seed_db.py -u eu-west-1_m02XYmJZ9 -l lists-staging -n notfound-staging -p products-staging",
-    "cleanDB": "python cypress/scripts/clean_db.py -u eu-west-1_m02XYmJZ9 -l lists-staging -n notfound-staging -p products-staging"
+    "seedDB": "python cypress/scripts/seed_db.py -P cypress-staging -u eu-west-1_m02XYmJZ9 -l lists-staging -n notfound-staging -p products-staging",
+    "cleanDB": "python cypress/scripts/clean_db.py -P cypress-staging -u eu-west-1_m02XYmJZ9 -l lists-staging -n notfound-staging -p products-staging"
   },
   "projectId": "xp55mo"
 }
