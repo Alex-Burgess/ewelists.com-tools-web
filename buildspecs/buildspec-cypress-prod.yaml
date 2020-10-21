@@ -28,10 +28,6 @@ batch:
       env:
         variables:
           IMAGE: cypress/base
-    - identifier: cypress5
-      env:
-        variables:
-          IMAGE: cypress/base
 
 phases:
   install:

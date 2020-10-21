@@ -27,16 +27,13 @@ batch:
       env:
         variables:
           IMAGE: cypress/base
-    - identifier: cypress5
-      env:
-        variables:
-          IMAGE: cypress/base
 
 phases:
   install:
     runtime-versions:
       nodejs: 12
     commands:
+      # - npm install cypress@5.3.0 --save-dev
       - npm install cypress --save-dev
   # pre_build:
   #   commands:
