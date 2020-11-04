@@ -5,21 +5,7 @@ TestFilter(['smoke', 'regression'], () => {
     let seedResponse = {}
     let user = {}
 
-    before(() => {
-      cy.fixture('update-gifts.json').then(fixture => {
-        user = fixture.user
-        cy.log("User email: " + user.email)
-      })
-
-      cy.exec(Cypress.env('seedDB') + ' -f cypress/fixtures/update-gifts.json').then((result) => {
-        seedResponse = JSON.parse(result.stdout)
-        cy.log("User ID: " + seedResponse.user_id)
-        cy.log("List ID: " + seedResponse.list_id)
-        cy.log("Products IDs: " + seedResponse.product_ids)
-      })
-    })
-
-    after(() => {
+    afterEach(() => {
       seedResponse['user_email'] = user.email
       cy.exec(Cypress.env('cleanDB') + ' -d \'' + JSON.stringify(seedResponse) + '\'').then((result) => {
         cy.log("Delete response: " + result.stdout)
@@ -31,11 +17,23 @@ TestFilter(['smoke', 'regression'], () => {
         this.product = product
       })
 
-      cy.login(user.email, user.password)
-      cy.visit('/admin/update-users-gifts')
+      cy.fixture('update-gifts.json').then(fixture => {
+        user = fixture.user
+        cy.log("User email: " + user.email)
+      })
+
+      cy.exec(Cypress.env('seedDB') + ' -f cypress/fixtures/update-gifts.json').then((result) => {
+        seedResponse = JSON.parse(result.stdout)
+        cy.log("User ID: " + seedResponse.user_id)
+        cy.log("List ID: " + seedResponse.list_id)
+        cy.log("Products IDs: " + seedResponse.product_ids)
+        cy.login(user.email, user.password)
+      })
     })
 
     it('Updates new gift', function () {
+      cy.visit('/admin/update-users-gifts')
+
       // Test the notfound items table loads correctly
       cy.contains('NotFound Items')
       cy.get('table').contains('td', 'Baby Cardigan');
@@ -50,6 +48,40 @@ TestFilter(['smoke', 'regression'], () => {
       cy.get('#price').type(this.product.price)
       cy.get('#details').clear().type(this.product.details)
       cy.get('#image-link').type(this.product.imageUrl)
+      cy.get('[data-cy=submit-button]').click()
+      cy.get('[data-cy=submit-button]').contains('Success!')
+      cy.get('[data-cy=alt-button]').contains('Update Next')
+
+      // Get product id to delete
+      cy.get("#success-message").invoke("text").then((value) => {
+        const id = value.split(': ')[1]
+        cy.log("New productId:" + id)
+        seedResponse['product_ids'].push(id)
+      });
+
+      // Check table is reloaded
+      cy.get('[data-cy=alt-button]').click()
+      cy.url().should('eq', Cypress.config().baseUrl + '/admin/update-users-gifts')
+    })
+
+    it('Updates new gift with search hidden', function () {
+      cy.visit('/admin/update-users-gifts')
+
+      // Test the notfound items table loads correctly
+      cy.contains('NotFound Items')
+      cy.get('table').contains('td', 'Baby Cardigan');
+
+      // Find link to test item
+      cy.get('table').get('a[href="/admin/update-users-gifts/' + seedResponse.product_ids[0] + '"]').eq(0).click();
+      cy.contains('Product ID: ' + seedResponse.product_ids[0])
+      cy.contains('John Lewis')
+
+      // Complete form
+      cy.get('#brand').clear().type(this.product.brand)
+      cy.get('#price').type(this.product.price)
+      cy.get('#details').clear().type(this.product.details)
+      cy.get('#image-link').type(this.product.imageUrl)
+      cy.get('[type=checkbox]').check()
       cy.get('[data-cy=submit-button]').click()
       cy.get('[data-cy=submit-button]').contains('Success!')
       cy.get('[data-cy=alt-button]').contains('Update Next')

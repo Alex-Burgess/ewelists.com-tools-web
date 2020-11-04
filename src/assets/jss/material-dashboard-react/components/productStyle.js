@@ -14,6 +14,9 @@ const productStyle = {
   cardSidebar: {
     marginTop: "10px",
     marginBottom: "10px"
+  },
+  formButton: {
+    maxWidth: "90px"
   }
 };
 

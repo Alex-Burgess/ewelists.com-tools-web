@@ -14,14 +14,14 @@ export default function FormButtons(props) {
 
   return (
     <div className={classes.buttonContainer}>
-      <Button color="primary" disabled={!validate() || updated} type="submit" data-cy="submit-button">
+      <Button color="primary" disabled={!validate() || updated} type="submit" data-cy="submit-button" className={classes.formButton}>
         { updated
           ? <span>Success!</span>
           : <span>{submitLabel}</span>
         }
       </Button>
       { updated
-        ? <Button color="success" onClick={alternateAction} data-cy="alt-button">
+        ? <Button color="success" onClick={alternateAction} data-cy="alt-button" className={classes.formButton}>
             {successLabel}
           </Button>
         : <Button onClick={alternateAction} data-cy="alt-button">

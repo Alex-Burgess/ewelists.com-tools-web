@@ -10,7 +10,35 @@ const useStyles = makeStyles(styles);
 
 export default function EnvironmentSelector(props) {
   const classes = useStyles();
-  const { testChecked, stagingChecked, prodChecked, handleToggle  } = props;
+  const { updateTest, updateStaging, updateProd, setUpdateTest, setUpdateStaging, setUpdateProd } = props;
+
+  const handleToggle = value => {
+    switch (value) {
+      case "test":
+        if (updateTest) {
+          setUpdateTest(false)
+        } else {
+          setUpdateTest(true)
+        }
+        break;
+      case "staging":
+        if (updateStaging) {
+          setUpdateStaging(false)
+        } else {
+          setUpdateStaging(true)
+        }
+        break;
+      case "prod":
+        if (updateProd) {
+          setUpdateProd(false)
+        } else {
+          setUpdateProd(true)
+        }
+        break;
+      default:
+        break;
+    }
+  };
 
   return (
     <div className={classes.buttonContainer}>
@@ -18,7 +46,7 @@ export default function EnvironmentSelector(props) {
         Test
       </span>
       <Checkbox
-        checked={testChecked}
+        checked={updateTest}
         tabIndex={-1}
         onClick={() => handleToggle('test')}
         checkedIcon={<Check className={classes.checkedIcon} />}
@@ -32,7 +60,7 @@ export default function EnvironmentSelector(props) {
         Staging
       </span>
       <Checkbox
-        checked={stagingChecked}
+        checked={updateStaging}
         tabIndex={-1}
         onClick={() => handleToggle('staging')}
         checkedIcon={<Check className={classes.checkedIcon} />}
@@ -46,7 +74,7 @@ export default function EnvironmentSelector(props) {
         Prod
       </span>
       <Checkbox
-        checked={prodChecked}
+        checked={updateProd}
         tabIndex={-1}
         onClick={() => handleToggle('prod')}
         checkedIcon={<Check className={classes.checkedIcon} />}
@@ -61,8 +89,10 @@ export default function EnvironmentSelector(props) {
 }
 
 EnvironmentSelector.propTypes = {
-  testChecked: PropTypes.bool,
-  stagingChecked: PropTypes.bool,
-  prodChecked: PropTypes.bool,
-  handleToggle: PropTypes.func
+  updateTest: PropTypes.bool,
+  updateStaging: PropTypes.bool,
+  updateProd: PropTypes.bool,
+  setUpdateTest: PropTypes.func,
+  setUpdateStaging: PropTypes.func,
+  setUpdateProd: PropTypes.func
 };

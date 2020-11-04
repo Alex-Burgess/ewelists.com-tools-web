@@ -11,6 +11,7 @@ import CardBody from "components/Card/CardBody.js";
 import ProductForm from "components/Product/Form.js"
 import FormButtons from "components/Product/FormButtons.js"
 import Environments from "components/Product/EnvironmentSelector.js"
+import Search from "components/Product/SearchSelector.js"
 import Result from "components/Product/Result.js"
 import ProductSidebar from "components/Product/Sidebar.js";
 // libs
@@ -43,6 +44,7 @@ export default function UpdateProduct(props) {
   const [priceError, setPriceError] = useState(false);
   const [productUrlError, setProductUrlError] = useState(false);
   const [imageUrlError, setImageUrlError] = useState(false);
+  const [searchHidden, setSearchHidden] = useState(false);
 
   useEffect( () => {
     setBrand(item.brand);
@@ -51,35 +53,8 @@ export default function UpdateProduct(props) {
     setRetailer(item.retailer);
     setProductUrl(item.productUrl);
     setImageUrl(item.imageUrl);
+    setSearchHidden(item.searchHidden);
   }, [item]);
-
-  const handleToggle = value => {
-    switch (value) {
-      case "test":
-        if (updateTest) {
-          setUpdateTest(false)
-        } else {
-          setUpdateTest(true)
-        }
-        break;
-      case "staging":
-        if (updateStaging) {
-          setUpdateStaging(false)
-        } else {
-          setUpdateStaging(true)
-        }
-        break;
-      case "prod":
-        if (updateProd) {
-          setUpdateProd(false)
-        } else {
-          setUpdateProd(true)
-        }
-        break;
-      default:
-        break;
-    }
-  };
 
   const validateForm = () => {
     return (
@@ -96,40 +71,6 @@ export default function UpdateProduct(props) {
     );
   }
 
-  const updatePrice = (p) => {
-    setPrice(p);
-
-    if (p.length > 0 && (! forms.validatePrice(p))) {
-      setPriceError(true);
-    } else {
-      setPriceError(false);
-    }
-  }
-
-  const updateProductUrl = (url) => {
-    setProductUrl(url);
-
-    if (url.length > 0 && (! forms.validateUrl(url))) {
-      setProductUrlError(true);
-    } else {
-      setProductUrlError(false);
-
-      const retailer = forms.getRetailerFromUrl(url);
-      setRetailer(retailer);
-    }
-  }
-
-  const updateImageUrl = (url) => {
-    url = forms.verifyAmazonImage(url);
-    setImageUrl(url)
-
-    if (url.length > 0 && (! forms.validateImageUrl(url))) {
-      setImageUrlError(true)
-    } else {
-      setImageUrlError(false)
-    }
-  }
-
   const updateProduct = async (e) => {
     e.preventDefault();
     setIsUpdating(true);
@@ -141,6 +82,7 @@ export default function UpdateProduct(props) {
       "retailer": retailer,
       "productUrl": productUrl,
       "imageUrl": imageUrl,
+      "searchHidden": searchHidden,
       "test": updateTest,
       "staging": updateStaging,
       "prod": updateProd
@@ -173,31 +115,42 @@ export default function UpdateProduct(props) {
                   isUpdating={isUpdating}
                   updated={updated}
                   brand={brand}
-                  updateBrand={setBrand}
+                  setBrand={setBrand}
                   retailer={retailer}
-                  updateRetailer={setRetailer}
+                  setRetailer={setRetailer}
                   price={price}
-                  updatePrice={updatePrice}
+                  setPrice={setPrice}
                   priceError={priceError}
+                  setPriceError={setPriceError}
                   details={details}
-                  updateDetails={setDetails}
+                  setDetails={setDetails}
                   productUrl={productUrl}
-                  updateProductUrl={updateProductUrl}
+                  setProductUrl={setProductUrl}
                   productUrlError={productUrlError}
+                  setProductUrlError={setProductUrlError}
                   imageUrl={imageUrl}
-                  updateImageUrl={updateImageUrl}
+                  setImageUrl={setImageUrl}
                   imageUrlError={imageUrlError}
+                  setImageUrlError={setImageUrlError}
                 />
                 <GridContainer>
-                  <GridItem xs={12} sm={6} md={6}>
-                    <Environments
-                      testChecked={updateTest}
-                      stagingChecked={updateStaging}
-                      prodChecked={updateProd}
-                      handleToggle={handleToggle}
+                  <GridItem xs={12} sm={12} md={12}>
+                    <Search
+                      searchHidden={searchHidden}
+                      setSearchHidden={setSearchHidden}
                     />
                   </GridItem>
-                  <GridItem xs={12} sm={6} md={6}>
+                  <GridItem xs={12} sm={7} md={7}>
+                    <Environments
+                      updateTest={updateTest}
+                      setUpdateTest={setUpdateTest}
+                      updateStaging={updateStaging}
+                      setUpdateStaging={setUpdateStaging}
+                      updateProd={updateProd}
+                      setUpdateProd={setUpdateProd}
+                    />
+                  </GridItem>
+                  <GridItem xs={12} sm={5} md={5}>
                     <FormButtons
                       updated={updated}
                       validate={validateForm}

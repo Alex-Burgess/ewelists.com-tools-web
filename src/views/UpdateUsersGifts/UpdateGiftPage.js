@@ -14,10 +14,11 @@ import FormButtons from "components/Product/FormButtons.js"
 import Result from "components/Product/Result.js"
 import ProductSidebar from "components/Product/Sidebar.js";
 import ListDetails from "components/Product/ListDetails.js";
+import Search from "components/Product/SearchSelector.js"
 // libs
 import { getNotFoundItem, updateNotfoundProduct } from "libs/apiLib.js";
 import { onError } from "libs/errorLib";
-import { validateUrl, validatePrice, verifyAmazonImage, getRetailerFromUrl, validateImageUrl } from "libs/formsLib";
+import { getRetailerFromUrl } from "libs/formsLib";
 import config from 'config.js';
 
 import styles from "assets/jss/material-dashboard-react/views/updateUsersGiftsStyle.js";
@@ -42,6 +43,7 @@ export default function UpdateProducts(props) {
   const [retailer, setRetailer] = useState('');
   const [productUrl, setProductUrl] = useState('');
   const [imageUrl, setImageUrl] = useState('');
+  const [searchHidden, setSearchHidden] = useState(false);
 
   const [isUpdating, setIsUpdating] = useState(false);
   const [updated, setUpdated] = useState(false);
@@ -91,40 +93,6 @@ export default function UpdateProducts(props) {
     );
   }
 
-  const updatePrice = (p) => {
-    setPrice(p);
-
-    if (p.length > 0 && (! validatePrice(p))) {
-      setPriceError(true);
-    } else {
-      setPriceError(false);
-    }
-  }
-
-  const updateProductUrl = (url) => {
-    setProductUrl(url);
-
-    if (url.length > 0 && (! validateUrl(url))) {
-      setProductUrlError(true);
-    } else {
-      setProductUrlError(false);
-
-      const retailer = getRetailerFromUrl(url);
-      setRetailer(retailer);
-    }
-  }
-
-  const updateImageUrl = (url) => {
-    url = verifyAmazonImage(url);
-    setImageUrl(url)
-
-    if (url.length > 0 && (! validateImageUrl(url))) {
-      setImageUrlError(true)
-    } else {
-      setImageUrlError(false)
-    }
-  }
-
   const updateProduct = async (e) => {
     e.preventDefault();
     setIsUpdating(true);
@@ -136,6 +104,10 @@ export default function UpdateProducts(props) {
       "retailer": retailer,
       "productUrl": productUrl,
       "imageUrl": imageUrl
+    }
+
+    if (searchHidden) {
+      body['searchHidden'] = searchHidden;
     }
 
     try {
@@ -179,23 +151,32 @@ export default function UpdateProducts(props) {
                       isUpdating={isUpdating}
                       updated={updated}
                       brand={brand}
-                      updateBrand={setBrand}
+                      setBrand={setBrand}
                       retailer={retailer}
-                      updateRetailer={setRetailer}
+                      setRetailer={setRetailer}
                       price={price}
-                      updatePrice={updatePrice}
+                      setPrice={setPrice}
                       priceError={priceError}
+                      setPriceError={setPriceError}
                       details={details}
-                      updateDetails={setDetails}
+                      setDetails={setDetails}
                       productUrl={productUrl}
-                      updateProductUrl={updateProductUrl}
+                      setProductUrl={setProductUrl}
                       productUrlError={productUrlError}
+                      setProductUrlError={setProductUrlError}
                       imageUrl={imageUrl}
-                      updateImageUrl={updateImageUrl}
+                      setImageUrl={setImageUrl}
                       imageUrlError={imageUrlError}
+                      setImageUrlError={setImageUrlError}
                     />
                     <GridContainer>
-                      <GridItem xs={12} sm={12} md={12}>
+                      <GridItem xs={12} sm={6} md={6}>
+                        <Search
+                          searchHidden={searchHidden}
+                          setSearchHidden={setSearchHidden}
+                        />
+                      </GridItem>
+                      <GridItem xs={12} sm={6} md={6}>
                         <FormButtons
                           updated={updated}
                           validate={validateForm}

@@ -4,27 +4,66 @@ import PropTypes from "prop-types";
 import GridItem from "components/Grid/GridItem.js";
 import GridContainer from "components/Grid/GridContainer.js";
 import CustomInput from "components/CustomInput/CustomInput.js";
+// libs
+import * as forms from "libs/formsLib";
 
 export default function ProductForm(props) {
   const {
     isUpdating,
     updated,
     brand,
-    updateBrand,
+    setBrand,
     retailer,
-    updateRetailer,
+    setRetailer,
     price,
-    updatePrice,
+    setPrice,
     priceError,
+    setPriceError,
     details,
-    updateDetails,
+    setDetails,
     productUrl,
-    updateProductUrl,
+    setProductUrl,
     productUrlError,
+    setProductUrlError,
     imageUrl,
-    updateImageUrl,
-    imageUrlError
+    setImageUrl,
+    imageUrlError,
+    setImageUrlError
   } = props;
+
+  const updatePrice = (p) => {
+    setPrice(p);
+
+    if (p.length > 0 && (! forms.validatePrice(p))) {
+      setPriceError(true);
+    } else {
+      setPriceError(false);
+    }
+  }
+
+  const updateProductUrl = (url) => {
+    setProductUrl(url);
+
+    if (url.length > 0 && (! forms.validateUrl(url))) {
+      setProductUrlError(true);
+    } else {
+      setProductUrlError(false);
+
+      const retailer = forms.getRetailerFromUrl(url);
+      setRetailer(retailer);
+    }
+  }
+
+  const updateImageUrl = (url) => {
+    url = forms.verifyAmazonImage(url);
+    setImageUrl(url)
+
+    if (url.length > 0 && (! forms.validateImageUrl(url))) {
+      setImageUrlError(true)
+    } else {
+      setImageUrlError(false)
+    }
+  }
 
   return (
       <GridContainer>
@@ -38,7 +77,7 @@ export default function ProductForm(props) {
             inputProps={{
               disabled: isUpdating || updated,
               value: brand,
-              onChange: event => updateBrand(event.target.value)
+              onChange: event => setBrand(event.target.value)
             }}
           />
         </GridItem>
@@ -52,7 +91,7 @@ export default function ProductForm(props) {
             inputProps={{
               disabled: isUpdating || updated,
               value: retailer,
-              onChange: event => updateRetailer(event.target.value)
+              onChange: event => setRetailer(event.target.value)
             }}
           />
         </GridItem>
@@ -82,7 +121,7 @@ export default function ProductForm(props) {
             inputProps={{
               disabled: isUpdating || updated,
               value: details,
-              onChange: event => updateDetails(event.target.value)
+              onChange: event => setDetails(event.target.value)
             }}
           />
         </GridItem>
@@ -130,18 +169,21 @@ ProductForm.propTypes = {
   isUpdating: PropTypes.bool,
   updated: PropTypes.bool,
   brand: PropTypes.string,
-  updateBrand: PropTypes.func,
+  setBrand: PropTypes.func,
   retailer: PropTypes.string,
-  updateRetailer: PropTypes.func,
+  setRetailer: PropTypes.func,
   price: PropTypes.string,
-  updatePrice: PropTypes.func,
+  setPrice: PropTypes.func,
   priceError: PropTypes.bool,
+  setPriceError: PropTypes.func,
   details: PropTypes.string,
-  updateDetails: PropTypes.func,
+  setDetails: PropTypes.func,
   productUrl: PropTypes.string,
-  updateProductUrl: PropTypes.func,
+  setProductUrl: PropTypes.func,
   productUrlError: PropTypes.bool,
+  setProductUrlError: PropTypes.func,
   imageUrl: PropTypes.string,
-  updateImageUrl: PropTypes.func,
-  imageUrlError: PropTypes.bool
+  setImageUrl: PropTypes.func,
+  imageUrlError: PropTypes.bool,
+  setImageUrlError: PropTypes.bool
 };

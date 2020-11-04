@@ -39,8 +39,9 @@ TestFilter(['smoke', 'regression'], () => {
 
       // Make Change
       cy.get('#price').clear().type('40.00')
-      cy.get('[type=checkbox]').eq(1).uncheck()
+      cy.get('[type=checkbox]').eq(0).check()
       cy.get('[type=checkbox]').eq(2).uncheck()
+      cy.get('[type=checkbox]').eq(3).uncheck()
       cy.get('[data-cy=submit-button]').click()
       cy.get('[data-cy=submit-button]').contains('Success!')
       cy.get('[data-cy=alt-button]').contains('Update Next')
@@ -193,10 +194,6 @@ TestFilter(['regression'], () => {
       cy.get('[type=checkbox]').uncheck()
       cy.get('[data-cy=submit-button]').should('have.css', "pointer-events", "none")
 
-      cy.get('[type=checkbox]').eq(0).check()
-      cy.get('[data-cy=submit-button]').should('have.css', "pointer-events", "auto")
-      cy.get('[type=checkbox]').eq(0).uncheck()
-
       cy.get('[type=checkbox]').eq(1).check()
       cy.get('[data-cy=submit-button]').should('have.css', "pointer-events", "auto")
       cy.get('[type=checkbox]').eq(1).uncheck()
@@ -204,6 +201,10 @@ TestFilter(['regression'], () => {
       cy.get('[type=checkbox]').eq(2).check()
       cy.get('[data-cy=submit-button]').should('have.css', "pointer-events", "auto")
       cy.get('[type=checkbox]').eq(2).uncheck()
+
+      cy.get('[type=checkbox]').eq(3).check()
+      cy.get('[data-cy=submit-button]').should('have.css', "pointer-events", "auto")
+      cy.get('[type=checkbox]').eq(3).uncheck()
     })
   })
 })
