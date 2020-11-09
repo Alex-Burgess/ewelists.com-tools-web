@@ -23,7 +23,7 @@ export default function EnvironmentSelector(props) {
   return (
     <div className={classes.buttonContainer}>
       <span>
-        Show in search results:
+        Hide from search:
       </span>
       <Checkbox
         checked={searchHidden}
