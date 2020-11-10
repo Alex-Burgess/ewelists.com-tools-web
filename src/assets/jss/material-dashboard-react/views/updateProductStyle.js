@@ -50,7 +50,7 @@ const updateProductStyle = theme => ({
     marginTop: "0px",
     minWidth: "500px",
     [theme.breakpoints.down("xs")]: {
-      minWidth: "310px",
+      minWidth: "280px",
     }
   },
   buttonContainer: {

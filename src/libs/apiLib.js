@@ -110,3 +110,16 @@ export const updateProductItem = async (body, id) => {
 
   return response;
 }
+
+export const queryMetadata = async (url) => {
+  let response;
+
+  try {
+    response = await API.get("tools", "/query/metadata/" + encodeURIComponent(url));
+  } catch (e) {
+    onError("There was an unexpected error attempting to get the metadata. Error: " + e.response.data.error);
+    throw e;
+  }
+
+  return response;
+}

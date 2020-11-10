@@ -185,5 +185,5 @@ ProductForm.propTypes = {
   imageUrl: PropTypes.string,
   setImageUrl: PropTypes.func,
   imageUrlError: PropTypes.bool,
-  setImageUrlError: PropTypes.bool
+  setImageUrlError: PropTypes.func
 };

@@ -24,7 +24,7 @@ import Edit from '@material-ui/icons/Edit';
 import DashboardPage from "views/Dashboard/Dashboard.js";
 import GiftsToUpdatePage from "views/UpdateUsersGifts/DisplayGiftsPage.js";
 import UpdateGiftPage from "views/UpdateUsersGifts/UpdateGiftPage.js";
-import CreateNewProduct from "views/CreateNewProduct/CreatePage.js";
+import SearchUrl from "views/CreateNewProduct/SearchUrl.js";
 import SearchProduct from "views/UpdateProduct/SearchProductPage.js";
 
 const dashboardRoutes = [
@@ -40,7 +40,7 @@ const dashboardRoutes = [
     path: "/create-product",
     name: "Create New Product",
     icon: AddBox,
-    component: CreateNewProduct,
+    component: SearchUrl,
     layout: "/admin",
     header: true
   },

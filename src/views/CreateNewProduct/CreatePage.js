@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import PropTypes from "prop-types";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 // core components
@@ -21,8 +22,10 @@ import styles from "assets/jss/material-dashboard-react/views/createNewProductSt
 
 const useStyles = makeStyles(styles);
 
-export default function CreateNewProduct(props) {
+export default function CreatePage(props) {
   const classes = useStyles();
+
+  const { item } = props;
 
   const [productId, setProductId] = useState('');
   const [brand, setBrand] = useState('');
@@ -40,6 +43,15 @@ export default function CreateNewProduct(props) {
   const [priceError, setPriceError] = useState(false);
   const [productUrlError, setProductUrlError] = useState(false);
   const [imageUrlError, setImageUrlError] = useState(false);
+
+  useEffect( () => {
+    setRetailer(forms.getRetailerFromUrl(item.url));
+    setProductUrl(item.url);
+    setBrand(item.site_name || '');
+    setDetails(item.title || '');
+    setPrice(item.price || '');
+    setImageUrl(item.image || '');
+  }, [item]);
 
   const validateForm = () => {
     return (
@@ -93,21 +105,6 @@ export default function CreateNewProduct(props) {
     }
   }
 
-  const nextProduct = () => {
-    setProductId('');
-    setBrand('');
-    setDetails('');
-    setPrice('');
-    setRetailer('');
-    setProductUrl('');
-    setImageUrl('');
-    setUpdateError('');
-    setUpdated(false);
-    setPriceError(false);
-    setProductUrlError(false);
-    setImageUrlError(false);
-  }
-
   return (
     <div>
       <GridContainer>
@@ -156,7 +153,7 @@ export default function CreateNewProduct(props) {
                     <FormButtons
                       updated={updated}
                       validate={validateForm}
-                      alternateAction={nextProduct}
+                      alternateAction={props.clearSearch}
                       submitLabel="Create"
                       successLabel="Create Next"
                     />
@@ -182,3 +179,7 @@ export default function CreateNewProduct(props) {
     </div>
   );
 }
+
+CreatePage.propTypes = {
+  item: PropTypes.object
+};
