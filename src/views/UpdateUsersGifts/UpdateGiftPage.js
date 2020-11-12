@@ -66,6 +66,14 @@ export default function UpdateProducts(props) {
         setListOwner(response.creatorsName);
         setListTitle(response.listTitle);
         setListUrl(config.mainSiteDomain + '/lists/' + response.listId);
+
+        if (response.price) {
+            setPrice(response.price);
+        }
+
+        if (response.imageUrl) {
+            setImageUrl(response.imageUrl);
+        }
       } catch (e) {
         onError(e);
         setLoadError('No product exists with this id: ' + productId)
